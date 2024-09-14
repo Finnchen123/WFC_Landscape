@@ -28,7 +28,7 @@ import org.kde.plasma.extras 2.0 as PlasmaExtras
 //We need units from it
 import org.kde.plasma.core 2.0 as Plasmacore
 
-import "code/wfc.js" as WFC
+import "code/wfc.js" as Wave
 
 
 Canvas {
@@ -37,27 +37,26 @@ Canvas {
 
     onPaint: {
         var ctx = getContext("2d");
-        
-        var isFinished = WFC.paintMatrix(ctx);
+        var isFinished = Wave.paintMatrix(ctx);
         if(isFinished) {
-            stepTimer.stop();
-            resetTimer.start();
+            stepTimerWave.stop();
+            resetTimerWave.start();
         };
     }
 
     onWidthChanged: {
-        stepTimer.stop();
-        WFC.dimensionChanged(width,height);
-        stepTimer.start();
+        stepTimerWave.stop();
+        Wave.dimensionChanged(width,height);
+        stepTimerWave.start();
     }
     onHeightChanged: {
-        stepTimer.stop();
-        WFC.dimensionChanged(width,height);
-        stepTimer.start();
+        stepTimerWave.stop();
+        Wave.dimensionChanged(width,height);
+        stepTimerWave.start();
     }
 
     Timer {
-        id: stepTimer
+        id: stepTimerWave
         interval: 40
         repeat: true
         running: true
@@ -70,14 +69,14 @@ Canvas {
     }
     
     Timer {
-        id: resetTimer
+        id: resetTimerWave
         interval: 5000
         repeat: false
         running: false
         triggeredOnStart: false
         onTriggered: {
-            WFC.restart(getContext("2d"));
-            stepTimer.start();
+            Wave.restart(getContext("2d"));
+            stepTimerWave.start();
         }
     }
 }
