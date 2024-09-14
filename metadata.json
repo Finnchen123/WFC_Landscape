@@ -1,0 +1,21 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "%{EMAIL}",
+                "Name": "%{AUTHOR}"
+            }
+        ],
+        "Description": "A random landscape generator based on WFC",
+        "Icon": "plasma",
+        "Id": "org.kde.plasma.wfc_landscape",
+        "License": "GPLv3",
+        "Name": "WFC Landscape",
+        "ServiceTypes": [
+            "Plasma/Wallpaper"
+        ],
+        "Version": "%{VERSION}",
+        "Website": "https://plasma.kde.org/"
+    },
+    "X-Plasma-MainScript": "ui/main.qml"
+}
