@@ -35,18 +35,19 @@ Canvas {
     id: root
     anchors.fill: parent
 
+    //Neighbours are always the same: North, East, South, West
     function getImages(){
         var imageList = [
-            {id: 0, path: "assets/A.png", neighbours: [{},{},{},{}]},
-            {id: 1, path: "assets/AB_East_South.png", neighbours: [{},{},{},{}]},
-            {id: 2, path: "assets/AB_East.png", neighbours: [{},{},{},{}]},
-            {id: 3, path: "assets/AB_North_East.png", neighbours: [{},{},{},{}]},
-            {id: 4, path: "assets/AB_North.png", neighbours: [{},{},{},{}]},
-            {id: 5, path: "assets/AB_South_West.png", neighbours: [{},{},{},{}]},
-            {id: 6, path: "assets/AB_South.png", neighbours: [{},{},{},{}]},
-            {id: 7, path: "assets/AB_West_North.png", neighbours: [{},{},{},{}]},
-            {id: 8, path: "assets/AB_West.png", neighbours: [{},{},{},{}]},
-            {id: 9, path: "assets/B.png", neighbours: [{},{},{},{}]}
+            {id: 0, path: "assets/A.png", neighbours: [[0, 4],[0, 2],[0, 6],[0, 8]]},
+            {id: 1, path: "assets/AB_East_South.png", neighbours: [[9],[9],[2, 5],[3, 4]]},
+            {id: 2, path: "assets/AB_East.png", neighbours: [[2, 1],[9],[2, 5],[0, 8]]},
+            {id: 3, path: "assets/AB_North_East.png", neighbours: [[9],[4, 1],[7, 8],[9]]},
+            {id: 4, path: "assets/AB_North.png", neighbours: [[9],[4, 1],[0, 6],[4, 3]]},
+            {id: 5, path: "assets/AB_South_West.png", neighbours: [[1, 2],[9],[9],[6, 7]]},
+            {id: 6, path: "assets/AB_South.png", neighbours: [[0, 4],[6, 5],[9],[4, 7]]},
+            {id: 7, path: "assets/AB_West_North.png", neighbours: [[3, 8],[5, 6],[9],[9]]},
+            {id: 8, path: "assets/AB_West.png", neighbours: [[8, 3],[0, 2],[8, 7],[9]]},
+            {id: 9, path: "assets/B.png", neighbours: [[9, 6],[9, 8],[9, 4],[9, 2]]}
         ]
         return imageList;
     }
