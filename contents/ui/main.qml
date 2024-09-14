@@ -35,9 +35,41 @@ Canvas {
     id: root
     anchors.fill: parent
 
+    function getImages(){
+        var imageList = [
+            {id: 0, path: "assets/A.png", neighbours: [{},{},{},{}]},
+            {id: 1, path: "assets/AB_East_South.png", neighbours: [{},{},{},{}]},
+            {id: 2, path: "assets/AB_East.png", neighbours: [{},{},{},{}]},
+            {id: 3, path: "assets/AB_North_East.png", neighbours: [{},{},{},{}]},
+            {id: 4, path: "assets/AB_North.png", neighbours: [{},{},{},{}]},
+            {id: 5, path: "assets/AB_South_West.png", neighbours: [{},{},{},{}]},
+            {id: 6, path: "assets/AB_South.png", neighbours: [{},{},{},{}]},
+            {id: 7, path: "assets/AB_West_North.png", neighbours: [{},{},{},{}]},
+            {id: 8, path: "assets/AB_West.png", neighbours: [{},{},{},{}]},
+            {id: 9, path: "assets/B.png", neighbours: [{},{},{},{}]}
+        ]
+        return imageList;
+    }
+
     onPaint: {
         var ctx = getContext("2d");
-        var isFinished = Wave.paintMatrix(ctx);
+        var images = getImages();
+        var canPaint = true;
+        var isFinished = false;
+        for(var i = 0; i < images.length; i++){
+            if(!isImageLoaded(images[i]["path"])){
+                canPaint = false;
+                loadImage(images[i]["path"]);
+            }
+            else{
+                Wave.saveImage(images[i], ctx);
+            }
+        }
+
+        if(canPaint){
+            isFinished = Wave.paintMatrix(ctx);
+        }
+
         if(isFinished) {
             stepTimerWave.stop();
             resetTimerWave.start();

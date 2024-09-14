@@ -1,19 +1,12 @@
-var config = [
-    {neighbours: [0,2]},
-    {neighbours: [1,2]},
-    {neighbours: [0,1,2,3]},
-    {neighbours: [2,3]}
-]
+var images = [];
 
-var current_x = 0;
-var current_y = 0;
-
-var SIZE = 32;
+var SIZE = 16;
 
 var cell_count_x = 0;
 var cell_count_y = 0;
 
 var map = [];
+
 
 function getColor(type){
     var hue;
@@ -41,7 +34,7 @@ function getColor(type){
 }
 
 function initialize(){
-    map = [];
+    /*map = [];
     for(var i = 0; i < cell_count_x; i++){
         for(var j = 0; j < cell_count_y; j++){
             map.push(new Field(i,j));
@@ -49,7 +42,7 @@ function initialize(){
     }
     var randomStart = Math.round(Math.random() * (map.length - 1));
     map[randomStart].generateRandomType();
-    propagateMap(randomStart);
+    propagateMap(randomStart);*/
 }
 
 function propagateMap(mapIndex){
@@ -66,41 +59,13 @@ function propagateMap(mapIndex){
 }
 
 function paintMatrix(ctx) {
-    var leastOptions = null;
-    var availableCollapse = [];
-    var counterCollapsed = 0;
-    for(var field of map){
-        if(field.collapsed){
-            field.paint(ctx);
-            counterCollapsed++;
-        }
-        else{
-            if(leastOptions == null){
-                leastOptions = field;
-                availableCollapse.push(field);
-            }
-            else{
-                if(leastOptions.possibleTypes.length > field.possibleTypes.length){
-                    leastOptions = field;
-                    availableCollapse = [];
-                    availableCollapse.push(field);
-                }
-                else if(leastOptions.possibleTypes.length == field.possibleTypes.length){
-                    availableCollapse.push(field);
-                }
-            }
-        }
-    }
+    ctx.drawImage(images[1]["image"], 0, 0);
+    console.log(images[0]["id"] + "/" + images[0].neighbours);
+    return true;
+}
 
-    if(availableCollapse.length > 0){
-        var collapse = availableCollapse[Math.round(Math.random() * (availableCollapse.length - 1))];
-
-        map[map.indexOf(collapse)].generateRandomType();
-        propagateMap(map.indexOf(collapse));
-    }
-
-    return counterCollapsed == map.length || availableCollapse.length <= 0;
-    //return true;
+function saveImage(image, ctx){
+    images.push({id: image["id"], image: ctx.createImageData(image["path"]), neighbours: image["neighbours"]});
 }
 
 function restart(ctx) {
