@@ -1,0 +1,53 @@
+//TODO: REMOVE TYPED ROADS -> ONE SINGLE ROAD TYPE
+
+function getLandscapeRules() {
+    return rules = [
+        { id: 0, path: "assets/Landscape/Gras_Water_East.png", neighbours: [[0, 1, 111], [119, 4, 6, 103, 106, 118], [0, 3, 113], [6, 7, 110, 112]] },
+        { id: 1, path: "assets/Landscape/Gras_Water_North_East.png", neighbours: [[3, 4, 5, 105, 106, 107, 118], [119, 4, 6, 103, 106, 118], [0, 3, 113], [119, 2, 113]] },
+        { id: 2, path: "assets/Landscape/Gras_Water_North.png", neighbours: [[3, 4, 5, 105, 106, 107, 118], [1, 112], [4, 7, 110, 111], [119, 2, 113]] },
+        { id: 3, path: "assets/Landscape/Gras_Water_South_East.png", neighbours: [[0, 1, 111], [119, 4, 6, 103, 106, 118], [1, 119, 2, 102, 103, 104, 118], [4, 5, 111]] },
+        { id: 4, path: "assets/Landscape/Gras_Water_South_West.png", neighbours: [[119, 6, 110], [3, 5, 110], [1, 119, 2, 102, 103, 104, 118], [0, 1, 3, 101, 102, 105, 118]] },
+        { id: 5, path: "assets/Landscape/Gras_Water_South.png", neighbours: [[2, 7, 112, 113], [3, 5, 110], [1, 119, 2, 102, 103, 104, 118], [4, 5, 111]] },
+        { id: 6, path: "assets/Landscape/Gras_Water_West.png", neighbours: [[119, 6, 110], [0, 7, 111, 113], [6, 4, 112], [0, 1, 3, 101, 102, 105, 118]] },
+        { id: 7, path: "assets/Landscape/Gras.png", neighbours: [[2, 7, 112, 113], [0, 7, 111, 113], [4, 7, 110, 111], [6, 7, 110, 112]] },
+        { id: 8, path: "assets/Landscape/Lava.png", neighbours: [[8], [8], [8], [8]] },
+
+        { id: 9, path: "assets/Landscape/Road_Center.png", neighbours: [[], [], [], []] },
+        { id: 10, path: "assets/Landscape/Road_End_Down.png", neighbours: [[], [], [], []] },
+        { id: 11, path: "assets/Landscape/Road_End_Left.png", neighbours: [[], [], [], []] },
+        { id: 12, path: "assets/Landscape/Road_End_Right.png", neighbours: [[], [], [], []] },
+        { id: 13, path: "assets/Landscape/Road_End_Up.png", neighbours: [[], [], [], []] },
+        { id: 14, path: "assets/Landscape/Road_Horizontal.png", neighbours: [[], [], [], []] },
+        { id: 15, path: "assets/Landscape/Road_T_Down.png", neighbours: [[], [], [], []] },
+        { id: 16, path: "assets/Landscape/Road_T_Left.png", neighbours: [[], [], [], []] },
+        { id: 17, path: "assets/Landscape/Road_T_Right.png", neighbours: [[], [], [], []] },
+        { id: 18, path: "assets/Landscape/Road_T_Up.png", neighbours: [[], [], [], []] },
+        { id: 19, path: "assets/Landscape/Road_Turn_Down_Left.png", neighbours: [[], [], [], []] },
+        { id: 20, path: "assets/Landscape/Road_Turn_Left_Up.png", neighbours: [[], [], [], []] },
+        { id: 21, path: "assets/Landscape/Road_Turn_Right_Down.png", neighbours: [[], [], [], []] },
+        { id: 22, path: "assets/Landscape/Road_Turn_Up_Right.png", neighbours: [[], [], [], []] },
+        { id: 23, path: "assets/Landscape/Road_Vertical.png", neighbours: [[], [], [], []] },
+
+        { id: 99, path: "assets/Landscape/Sand.png", neighbours: [[], [], [], []] },
+        { id: 100, path: "assets/Landscape/Snow.png", neighbours: [[], [], [], []] },
+        { id: 101, path: "assets/Landscape/Stone_Water_East.png", neighbours: [[], [], [], []] },
+        { id: 102, path: "assets/Landscape/Stone_Water_North_East.png", neighbours: [[], [], [], []] },
+        { id: 103, path: "assets/Landscape/Stone_Water_North_West.png", neighbours: [[], [], [], []] },
+        { id: 104, path: "assets/Landscape/Stone_Water_North.png", neighbours: [[], [], [], []] },
+        { id: 105, path: "assets/Landscape/Stone_Water_South_East.png", neighbours: [[], [], [], []] },
+        { id: 106, path: "assets/Landscape/Stone_Water_South_West.png", neighbours: [[], [], [], []] },
+        { id: 107, path: "assets/Landscape/Stone_Water_South.png", neighbours: [[], [], [], []] },
+        { id: 108, path: "assets/Landscape/Stone_Water_West.png", neighbours: [[], [], [], []] },
+        { id: 109, path: "assets/Landscape/Stone.png", neighbours: [[], [], [], []] },
+        { id: 110, path: "assets/Landscape/Water_Gras_North_East.png", neighbours: [[], [], [], []] },
+        { id: 111, path: "assets/Landscape/Water_Gras_North_West.png", neighbours: [[], [], [], []] },
+        { id: 112, path: "assets/Landscape/Water_Gras_South_East.png", neighbours: [[], [], [], []] },
+        { id: 113, path: "assets/Landscape/Water_Gras_South_West.png", neighbours: [[], [], [], []] },
+        { id: 114, path: "assets/Landscape/Water_Stone_North_East.png", neighbours: [[], [], [], []] },
+        { id: 115, path: "assets/Landscape/Water_Stone_North_West.png", neighbours: [[], [], [], []] },
+        { id: 116, path: "assets/Landscape/Water_Stone_South_East.png", neighbours: [[], [], [], []] },
+        { id: 117, path: "assets/Landscape/Water_Stone_South_West.png", neighbours: [[], [], [], []] },
+        { id: 118, path: "assets/Landscape/Water.png", neighbours: [[], [], [], []] },
+        { id: 119, path: "assets/Landscape/Gras_Water_North_West.png", neighbours: [[0, 1, 111], [1, 112], [6, 4, 112], [0, 1, 3, 101, 102, 105, 118]] }
+    ]
+}

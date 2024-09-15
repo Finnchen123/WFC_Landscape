@@ -158,7 +158,7 @@ class Field {
         this.possibleTypes = [];
         this.painted = false;
         for (var i = 0; i < images.length; i++) {
-            this.possibleTypes.push(i);
+            this.possibleTypes[images[i]["id"]] = images[i]["id"];
         }
     }
 
@@ -203,10 +203,5 @@ class Field {
         }
         result = [...new Set(result)];
         return result;
-    }
-
-    changePossibleTypes(collapsedType) {
-        //Get what type was collapsed - int
-        //Return new possible types - Array
     }
 }
