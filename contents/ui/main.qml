@@ -42,18 +42,38 @@ Canvas {
         switch(usedTileset){
             case "Roads":
                 imageList = [
-                    {id: 0, path: "assets/Roads/A.png", neighbours: [[0, 2,8,6,7],[0, 11, 10, 5, 8],[0, 2, 3, 9, 10],[0, 11, 4, 7, 9]]},
-                    {id: 1, path: "assets/Roads/Road_Center.png", neighbours: [[1, 3, 4, 5, 9, 10, 11],[1, 2, 3, 4, 6, 7, 9],[1, 4,5,6,7,8,11],[1, 2, 3, 5, 6, 8, 10]]},
-                    {id: 2, path: "assets/Roads/Road_Horizontal.png", neighbours: [[0, 2, 6, 7, 8],[1, 2, 3, 4, 6, 7, 9],[0, 2, 3, 9, 10],[1, 2, 3,  5, 6, 8, 10]]},
-                    {id: 3, path: "assets/Roads/Road_T_Down.png", neighbours: [[0, 2, 6, 7, 8],[1, 2, 3, 4, 6, 7, 9],[1, 4,5,6,7,8,11],[1, 2, 3,  5, 6, 8, 10]]},
-                    {id: 4, path: "assets/Roads/Road_T_Left.png", neighbours: [[1, 3, 4, 5, 9, 10, 11],[0, 5, 8, 10, 11],[1, 4,5,6,7,8,11],[1, 2, 3, 5, 6, 8, 10]]},
-                    {id: 5, path: "assets/Roads/Road_T_Right.png", neighbours: [[1, 3, 4, 5, 9, 10, 11],[1, 2, 3, 4, 6, 7, 9],[1, 4,5,6,7,8,11],[0, 4, 7, 9, 11]]},
-                    {id: 6, path: "assets/Roads/Road_T_Up.png", neighbours: [[1, 3, 4, 5, 9, 10, 11],[1, 2, 3, 4, 6, 7, 9],[0, 2, 3, 9, 10],[1, 2, 3, 5, 6, 8, 10]]},
-                    {id: 7, path: "assets/Roads/Road_Turn_Down_Left.png", neighbours: [[1, 3, 4, 5, 9, 10, 11],[0, 5, 8, 10, 11],[0, 2, 3, 9, 10],[1, 2, 3, 5, 6, 8, 10]]},
-                    {id: 8, path: "assets/Roads/Road_Turn_Left_Up.png", neighbours: [[1, 3, 4, 5, 9, 10, 11],[1, 2, 3, 4, 6, 7, 9],[0, 2, 3, 9, 10],[0, 4, 7, 9, 11]]},
-                    {id: 9, path: "assets/Roads/Road_Turn_Right_Down.png", neighbours: [[0, 2, 6, 7, 8],[0, 5, 8, 10, 11],[1, 4,5,6,7,8,11],[1, 2, 3, 5, 6, 8, 10]]},
-                    {id: 10, path: "assets/Roads/Road_Turn_Up_Right.png", neighbours: [[0, 2, 6, 7, 8],[1, 2, 3, 4, 6, 7, 9],[1, 4,5,6,7,8,11],[0, 4, 7, 9, 11]]},
-                    {id: 11, path: "assets/Roads/Road_Vertical.png", neighbours: [[1, 3, 4, 5, 9, 10, 11],[0, 5, 8, 10, 11],[1, 4,5,6,7,8,11],[0, 4, 7, 9, 11]]}
+                    {id: 0, path: "assets/Roads/A.png", neighbours: 
+                        [[0, 2,8,6,7, 12, 13, 14],[0, 11, 10, 5, 8, 12, 13,15],[0, 2, 3, 9, 10, 13, 14,15],[0, 11, 4, 7, 9, 12, 14,15]]},
+                    {id: 1, path: "assets/Roads/Road_Center.png", neighbours: 
+                        [[1, 3, 4, 5, 9, 10, 11, 15],[1, 2, 3, 4, 6, 7, 9, 14],[1, 4,5,6,7,8,11,12],[1, 2, 3, 5, 6, 8, 10, 13]]},
+                    {id: 2, path: "assets/Roads/Road_Horizontal.png", neighbours: 
+                        [[0, 2, 6, 7, 8, 12, 13, 14],[1, 2, 3, 4, 6, 7, 9, 14],[0, 2, 3, 9, 10, 13, 14, 15],[1, 2, 3,  5, 6, 8, 10, 13]]},
+                    {id: 3, path: "assets/Roads/Road_T_Down.png", neighbours: 
+                        [[0, 2, 6, 7, 8, 12, 14, 13],[1, 2, 3, 4, 6, 7, 9, 14],[1, 4,5,6,7,8,11, 12],[1, 2, 3,  5, 6, 8, 10, 13]]},
+                    {id: 4, path: "assets/Roads/Road_T_Left.png", neighbours: 
+                        [[1, 3, 4, 5, 9, 10, 11, 15],[0, 5, 8, 10, 11, 12, 13, 15],[1, 4,5,6,7,8,11, 12],[1, 2, 3, 5, 6, 8, 10, 13]]},
+                    {id: 5, path: "assets/Roads/Road_T_Right.png", neighbours: 
+                        [[1, 3, 4, 5, 9, 10, 11, 15],[1, 2, 3, 4, 6, 7, 9, 14],[1, 4,5,6,7,8,11, 12],[0, 4, 7, 9, 11, 12, 14, 15]]},
+                    {id: 6, path: "assets/Roads/Road_T_Up.png", neighbours: 
+                        [[1, 3, 4, 5, 9, 10, 11, 15],[1, 2, 3, 4, 6, 7, 9, 14],[0, 2, 3, 9, 10, 14, 13, 15],[1, 2, 3, 5, 6, 8, 10, 13]]},
+                    {id: 7, path: "assets/Roads/Road_Turn_Down_Left.png", neighbours: 
+                        [[1, 3, 4, 5, 9, 10, 11, 15],[0, 5, 8, 10, 11, 12, 13, 15],[0, 2, 3, 9, 10, 14, 13, 15],[1, 2, 3, 5, 6, 8, 10, 13]]},
+                    {id: 8, path: "assets/Roads/Road_Turn_Left_Up.png", neighbours: 
+                        [[1, 3, 4, 5, 9, 10, 11, 15],[1, 2, 3, 4, 6, 7, 9, 14],[0, 2, 3, 9, 10, 14, 13, 15],[0, 4, 7, 9, 11, 12, 14, 15]]},
+                    {id: 9, path: "assets/Roads/Road_Turn_Right_Down.png", neighbours: 
+                        [[0, 2, 6, 7, 8, 12, 14, 13],[0, 5, 8, 10, 11, 12, 13, 15],[1, 4,5,6,7,8,11, 12],[1, 2, 3, 5, 6, 8, 10, 13]]},
+                    {id: 10, path: "assets/Roads/Road_Turn_Up_Right.png", neighbours: 
+                        [[0, 2, 6, 7, 8, 12, 14, 13],[1, 2, 3, 4, 6, 7, 9, 14],[1, 4,5,6,7,8,11, 12],[0, 4, 7, 9, 11, 12, 14, 15]]},
+                    {id: 11, path: "assets/Roads/Road_Vertical.png", neighbours: 
+                        [[1, 3, 4, 5, 9, 10, 11,15],[0, 5, 8, 10, 11, 12, 13,15],[1, 4,5,6,7,8,11, 12],[0, 4, 7, 9, 11, 12,14,15]]},
+                    {id: 12, path: "assets/Roads/Road_End_Down.png", neighbours: 
+                        [[1,3,4,5,9,10,11,15],[0,5,8,10,11,12,13,15],[0,2,3,9,10,13,14,15],[0,4,7,9,11,12,14,15]]},
+                    {id: 13, path: "assets/Roads/Road_End_Left.png", neighbours: 
+                        [[0,2,6,7,8,12,13,14],[1,2,3,4,6,7,9,14],[0,2,3,9,10,13,14,15],[0,4,7,9,11,12,14,15]]},
+                    {id: 14, path: "assets/Roads/Road_End_Right.png", neighbours: 
+                        [[0,2,6,7,8,12,13,14],[0,5,8,10,11,12,13,15],[0,2,3,9,10,13,14,15],[1, 2, 3, 5, 6, 8, 10, 13]]},
+                    {id: 15, path: "assets/Roads/Road_End_Up.png", neighbours: 
+                        [[0,2,6,7,8,12,13,14],[0,5,8,10,11,12,13,15],[1, 4,5,6,7,8,11,12],[0,4,7,9,11,12,14,15]]}
                 ]
             break;
             default:

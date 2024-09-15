@@ -14,8 +14,8 @@ var map = [];
 //Checks if it is the first paint iteration or not | true = reload initialize for correct map generation | false = run normally
 var isFirstIteration = true;
 
-//Depth of propagation - Increase at own risk (Higher load) | Default: 1 (TESTED: 10 breaks Plasma)
-const DEPTH = 5;
+//Depth of propagation - Increase at own risk (Higher load) | Default: 2 (TESTED: 5 works but is slow, 10 breaks Plasma)
+const DEPTH = 2;
 
 function initialize() {
     map = [];
@@ -171,10 +171,8 @@ class Field {
 
     paint(ctx) {
         if (!this.painted) {
-            if (this.type) {
-                ctx.drawImage(images[this.type]["image"], this.x * SIZE, this.y * SIZE);
-                this.painted = true;
-            }
+            ctx.drawImage(images[this.type]["image"], this.x * SIZE, this.y * SIZE);
+            this.painted = true;
         }
     }
 
@@ -203,6 +201,7 @@ class Field {
         for(var possible of possibleTypes){
             result = result.concat(images[possible]["neighbours"][direction]);
         }
+        result = [...new Set(result)];
         return result;
     }
 
