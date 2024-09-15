@@ -37,18 +37,40 @@ Canvas {
 
     //Neighbours are always the same: North, East, South, West
     function getImages(){
-        var imageList = [
-            {id: 0, path: "assets/A.png", neighbours: [[0, 4],[0, 2],[0, 6],[0, 8]]},
-            {id: 1, path: "assets/AB_East_South.png", neighbours: [[9],[9],[2, 5],[3, 4]]},
-            {id: 2, path: "assets/AB_East.png", neighbours: [[2, 1],[9],[2, 5],[0, 8]]},
-            {id: 3, path: "assets/AB_North_East.png", neighbours: [[9],[4, 1],[7, 8],[9]]},
-            {id: 4, path: "assets/AB_North.png", neighbours: [[9],[4, 1],[0, 6],[4, 3]]},
-            {id: 5, path: "assets/AB_South_West.png", neighbours: [[1, 2],[9],[9],[6, 7]]},
-            {id: 6, path: "assets/AB_South.png", neighbours: [[0, 4],[6, 5],[9],[4, 7]]},
-            {id: 7, path: "assets/AB_West_North.png", neighbours: [[3, 8],[5, 6],[9],[9]]},
-            {id: 8, path: "assets/AB_West.png", neighbours: [[8, 3],[0, 2],[8, 7],[9]]},
-            {id: 9, path: "assets/B.png", neighbours: [[9, 6],[9, 8],[9, 4],[9, 2]]}
-        ]
+        var usedTileset = "Roads";
+        var imageList;
+        switch(usedTileset){
+            case "Roads":
+                imageList = [
+                    {id: 0, path: "assets/Roads/A.png", neighbours: [[0, 2,8,6,7],[0, 11, 10, 5, 8],[0, 2, 3, 9, 10],[0, 11, 4, 7, 9]]},
+                    {id: 1, path: "assets/Roads/Road_Center.png", neighbours: [[1, 3, 4, 5, 9, 10, 11],[1, 2, 3, 4, 6, 7, 9],[1, 4,5,6,7,8,11],[1, 2, 3, 5, 6, 8, 10]]},
+                    {id: 2, path: "assets/Roads/Road_Horizontal.png", neighbours: [[0, 2, 6, 7, 8],[1, 2, 3, 4, 6, 7, 9],[0, 2, 3, 9, 10],[1, 2, 3,  5, 6, 8, 10]]},
+                    {id: 3, path: "assets/Roads/Road_T_Down.png", neighbours: [[0, 2, 6, 7, 8],[1, 2, 3, 4, 6, 7, 9],[1, 4,5,6,7,8,11],[1, 2, 3,  5, 6, 8, 10]]},
+                    {id: 4, path: "assets/Roads/Road_T_Left.png", neighbours: [[1, 3, 4, 5, 9, 10, 11],[0, 5, 8, 10, 11],[1, 4,5,6,7,8,11],[1, 2, 3, 5, 6, 8, 10]]},
+                    {id: 5, path: "assets/Roads/Road_T_Right.png", neighbours: [[1, 3, 4, 5, 9, 10, 11],[1, 2, 3, 4, 6, 7, 9],[1, 4,5,6,7,8,11],[0, 4, 7, 9, 11]]},
+                    {id: 6, path: "assets/Roads/Road_T_Up.png", neighbours: [[1, 3, 4, 5, 9, 10, 11],[1, 2, 3, 4, 6, 7, 9],[0, 2, 3, 9, 10],[1, 2, 3, 5, 6, 8, 10]]},
+                    {id: 7, path: "assets/Roads/Road_Turn_Down_Left.png", neighbours: [[1, 3, 4, 5, 9, 10, 11],[0, 5, 8, 10, 11],[0, 2, 3, 9, 10],[1, 2, 3, 5, 6, 8, 10]]},
+                    {id: 8, path: "assets/Roads/Road_Turn_Left_Up.png", neighbours: [[1, 3, 4, 5, 9, 10, 11],[1, 2, 3, 4, 6, 7, 9],[0, 2, 3, 9, 10],[0, 4, 7, 9, 11]]},
+                    {id: 9, path: "assets/Roads/Road_Turn_Right_Down.png", neighbours: [[0, 2, 6, 7, 8],[0, 5, 8, 10, 11],[1, 4,5,6,7,8,11],[1, 2, 3, 5, 6, 8, 10]]},
+                    {id: 10, path: "assets/Roads/Road_Turn_Up_Right.png", neighbours: [[0, 2, 6, 7, 8],[1, 2, 3, 4, 6, 7, 9],[1, 4,5,6,7,8,11],[0, 4, 7, 9, 11]]},
+                    {id: 11, path: "assets/Roads/Road_Vertical.png", neighbours: [[1, 3, 4, 5, 9, 10, 11],[0, 5, 8, 10, 11],[1, 4,5,6,7,8,11],[0, 4, 7, 9, 11]]}
+                ]
+            break;
+            default:
+                imageList = [
+                    {id: 0, path: "assets/Nature/A.png", neighbours: [[0, 4],[0, 2],[0, 6],[0, 8]]},
+                    {id: 1, path: "assets/Nature/AB_East_South.png", neighbours: [[9],[9],[2, 5],[3, 4]]},
+                    {id: 2, path: "assets/Nature/AB_East.png", neighbours: [[2, 1],[9],[2, 5],[0, 8]]},
+                    {id: 3, path: "assets/Nature/AB_North_East.png", neighbours: [[9],[4, 1],[7, 8],[9]]},
+                    {id: 4, path: "assets/Nature/AB_North.png", neighbours: [[9],[4, 1],[0, 6],[4, 3]]},
+                    {id: 5, path: "assets/Nature/AB_South_West.png", neighbours: [[1, 2],[9],[9],[6, 7]]},
+                    {id: 6, path: "assets/Nature/AB_South.png", neighbours: [[0, 4],[6, 5],[9],[4, 7]]},
+                    {id: 7, path: "assets/Nature/AB_West_North.png", neighbours: [[3, 8],[5, 6],[9],[9]]},
+                    {id: 8, path: "assets/Nature/AB_West.png", neighbours: [[8, 3],[0, 2],[8, 7],[9]]},
+                    {id: 9, path: "assets/Nature/B.png", neighbours: [[9, 6],[9, 8],[9, 4],[9, 2]]}
+                ]
+            break;
+        }
         return imageList;
     }
 
