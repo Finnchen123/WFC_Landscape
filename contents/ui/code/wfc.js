@@ -17,6 +17,14 @@ var isFirstIteration = true;
 //Depth of propagation - Increase at own risk (Higher load) | Default: 2 (TESTED: 5 works but is slow, 10 breaks Plasma)
 const DEPTH = 2;
 
+//Variables for measurements
+var paintStart;
+var paintEnd;
+var duration;
+var loopNumber;
+var highestDuration;
+var lowestDuration;
+
 function initialize() {
     map = [];
     for (var i = 0; i < cell_count_x; i++) {
@@ -24,56 +32,44 @@ function initialize() {
             map.push(new Field(i, j));
         }
     }
-    var randomStart = Math.round(Math.random() * (map.length - 1));
-    if (map.length > 0 && !isFirstIteration) {
-        map[randomStart].generateRandomType();
-        propagateMap(randomStart, 1);
-    }
 }
 
-function propagateMap(mapIndex, currentDepth) {
-    var collapsedX = map[mapIndex].x;
-    var collapsedY = map[mapIndex].y;
-    var possibleTypes = map[mapIndex].possibleTypes;
-    var propagateCount = 0;
+function propagateMap(collapsedField, currentDepth) {
+    var collapsedX = collapsedField.x;
+    var collapsedY = collapsedField.y;
+    var possibleTypes = collapsedField.possibleTypes;
 
     for (var field of map) {
         if (field.collapsed) continue;
         if (field.x == collapsedX - 1 && field.y == collapsedY) { //West to collapsed
             field.propagateWest(possibleTypes);
-            propagateCount++;
             if(currentDepth <= DEPTH){
-                propagateMap(map.indexOf(field), currentDepth+1);
+                propagateMap(field, currentDepth+1);
             }
         }
         if (field.x == collapsedX + 1 && field.y == collapsedY) { //East to collapsed
             field.propagateEast(possibleTypes);
-            propagateCount++;
             if(currentDepth <= DEPTH){
-                propagateMap(map.indexOf(field), currentDepth+1);
+                propagateMap(field, currentDepth+1);
             }
         }
         if (field.y == collapsedY - 1 && field.x == collapsedX) { //North to collapsed
             field.propagateNorth(possibleTypes);
-            propagateCount++;
             if(currentDepth <= DEPTH){
-                propagateMap(map.indexOf(field), currentDepth+1);
+                propagateMap(field, currentDepth+1);
             }
         }
         if (field.y == collapsedY + 1 && field.X == collapsedX) { //South to collapsed
             field.propagateSouth(possibleTypes);
-            propagateCount++;
             if(currentDepth <= DEPTH){
-                propagateMap(map.indexOf(field), currentDepth+1);
+                propagateMap(field, currentDepth+1);
             }
-        }
-        if(propagateCount >= 4){
-            break;
         }
     }
 }
 
 function paintMatrix(ctx) {
+    paintStart = new Date();
     //Declare necessary variables
     var leastOptions = null;
     var availableCollapse = [];
@@ -81,6 +77,9 @@ function paintMatrix(ctx) {
 
     //Check if everything is properly initialized
     if (isFirstIteration) {
+        loopNumber = 0;
+        highestDuration = 0;
+        lowestDuration = 0;
         initialize();
         isFirstIteration = false;
         return false;
@@ -119,17 +118,21 @@ function paintMatrix(ctx) {
     if (availableCollapse.length > 0) {
         if(leastOptions.possibleTypes.length === 1){
             for(var toCollapse of availableCollapse){
-                map[map.indexOf(toCollapse)].generateRandomType();
-                propagateMap(map.indexOf(toCollapse), 1);
+                toCollapse.generateRandomType();
+                propagateMap(toCollapse, 1);
             }
         }
         else{
             var collapse = availableCollapse[Math.round(Math.random() * (availableCollapse.length - 1))];
-            map[map.indexOf(collapse)].generateRandomType();
-            propagateMap(map.indexOf(collapse), 1);
+            collapse.generateRandomType();
+            propagateMap(collapse, 1);
         }
     }
-
+    paintEnd = new Date();
+    duration = Math.abs(paintStart - paintEnd);
+    highestDuration = (highestDuration > duration) ? highestDuration : duration;
+    lowestDuration = (lowestDuration < duration) ? lowestDuration : duration;
+    loopNumber++;
     return counterCollapsed == map.length || availableCollapse.length <= 0;
 }
 
@@ -139,6 +142,8 @@ function saveImage(image, ctx) {
 }
 
 function restart(ctx) {
+    console.log("Highest duration: " + highestDuration + "ms | Lowest duration: " + lowestDuration + "ms");
+    console.log("-----------------------");
     ctx.reset();
     initialize();
 }
