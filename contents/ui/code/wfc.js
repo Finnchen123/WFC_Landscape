@@ -24,51 +24,20 @@ var duration;
 var loopNumber;
 var highestDuration;
 var lowestDuration;
+var gotError = false;
 
 function initialize() {
     map = [];
     for (var i = 0; i < cell_count_x; i++) {
+        map[i] = [];
         for (var j = 0; j < cell_count_y; j++) {
-            map.push(new Field(i, j));
-        }
-    }
-}
-
-function propagateMap(collapsedField, currentDepth) {
-    var collapsedX = collapsedField.x;
-    var collapsedY = collapsedField.y;
-    var possibleTypes = collapsedField.possibleTypes;
-
-    for (var field of map) {
-        if (field.collapsed) continue;
-        if (field.x == collapsedX - 1 && field.y == collapsedY) { //West to collapsed
-            field.propagateWest(possibleTypes);
-            if(currentDepth <= DEPTH){
-                propagateMap(field, currentDepth+1);
-            }
-        }
-        if (field.x == collapsedX + 1 && field.y == collapsedY) { //East to collapsed
-            field.propagateEast(possibleTypes);
-            if(currentDepth <= DEPTH){
-                propagateMap(field, currentDepth+1);
-            }
-        }
-        if (field.y == collapsedY - 1 && field.x == collapsedX) { //North to collapsed
-            field.propagateNorth(possibleTypes);
-            if(currentDepth <= DEPTH){
-                propagateMap(field, currentDepth+1);
-            }
-        }
-        if (field.y == collapsedY + 1 && field.X == collapsedX) { //South to collapsed
-            field.propagateSouth(possibleTypes);
-            if(currentDepth <= DEPTH){
-                propagateMap(field, currentDepth+1);
-            }
+            map[i][j] = new Field(i,j);
         }
     }
 }
 
 function paintMatrix(ctx) {
+    //return true;
     paintStart = new Date();
     //Declare necessary variables
     var leastOptions = null;
@@ -86,29 +55,33 @@ function paintMatrix(ctx) {
     }
 
     //Draw already collapsed fields
-    for (var field of map) {
-        if (field.collapsed) {
-            field.paint(ctx);
-            counterCollapsed++;
+    for(var i = 0; i < map.length; i++){
+        for(var j = 0; j < map[i].length; j++){
+            if (map[i][j].collapsed) {
+                map[i][j].paint(ctx);
+                counterCollapsed++;
+            }
         }
     }
 
     //Main logic - Find collapsable fields
-    
-    for (var field of map) {
-        if(field.collapsed) continue;
-        if (leastOptions == null) {
-            leastOptions = field;
-            availableCollapse.push(field);
-        }
-        else {
-            if (leastOptions.possibleTypes.length > field.possibleTypes.length) {
-                leastOptions = field;
-                availableCollapse = [];
-                availableCollapse.push(field);
+
+    for(var i = 0; i < map.length; i++){
+        for(var j = 0; j < map[i].length; j++){
+            if (map[i][j].collapsed) continue;
+            if (leastOptions == null) {
+                leastOptions = map[i][j];
+                availableCollapse.push(map[i][j]);
             }
-            else if (leastOptions.possibleTypes.length == field.possibleTypes.length) {
-                availableCollapse.push(field);
+            else {
+                if (leastOptions.possibleTypes.length > map[i][j].possibleTypes.length) {
+                    leastOptions = map[i][j];
+                    availableCollapse = [];
+                    availableCollapse.push(map[i][j]);
+                }
+                else if (leastOptions.possibleTypes.length == map[i][j].possibleTypes.length) {
+                    availableCollapse.push(map[i][j]);
+                }
             }
         }
     }
@@ -116,24 +89,17 @@ function paintMatrix(ctx) {
     //Main logic - Collapse one random field if possibilities > 1, else collapse all fields with possibilities = 1
 
     if (availableCollapse.length > 0) {
-        if(leastOptions.possibleTypes.length === 1){
-            for(var toCollapse of availableCollapse){
-                toCollapse.generateRandomType();
-                propagateMap(toCollapse, 1);
-            }
-        }
-        else{
-            var collapse = availableCollapse[Math.round(Math.random() * (availableCollapse.length - 1))];
-            collapse.generateRandomType();
-            propagateMap(collapse, 1);
-        }
+        var collapse = availableCollapse[Math.round(Math.random() * (availableCollapse.length - 1))];
+        collapse.generateRandomType();
+        collapse.propagate(0);
     }
     paintEnd = new Date();
     duration = Math.abs(paintStart - paintEnd);
     highestDuration = (highestDuration > duration) ? highestDuration : duration;
     lowestDuration = (lowestDuration < duration) ? lowestDuration : duration;
     loopNumber++;
-    return counterCollapsed == map.length || availableCollapse.length <= 0;
+
+    return counterCollapsed == map.length * map[0].length || availableCollapse.length <= 0;
 }
 
 function saveImage(image, ctx) {
@@ -144,6 +110,7 @@ function saveImage(image, ctx) {
 function restart(ctx) {
     console.log("Highest duration: " + highestDuration + "ms | Lowest duration: " + lowestDuration + "ms");
     console.log("-----------------------");
+    gotError = false;
     ctx.reset();
     initialize();
 }
@@ -169,6 +136,9 @@ class Field {
 
     generateRandomType() {
         this.type = this.possibleTypes[Math.round(Math.random() * (this.possibleTypes.length - 1))];
+        if(!Number.isInteger(this.type)){
+            this.type = this.type.split("#")[0]
+        }
         this.possibleTypes = [];
         this.possibleTypes.push(this.type);
         this.collapsed = true;
@@ -181,32 +151,58 @@ class Field {
         }
     }
 
-    propagateWest(possibleTypes) {
-        var possibilities = this.generateNeighbourList(possibleTypes, 3);
-        this.possibleTypes = this.possibleTypes.filter(element => possibilities.includes(element));
-    }
+    propagate(currentDepth){
+        var nextPropagation = [];
+        var availableDirections = [];
 
-    propagateEast(possibleTypes) {
-        var possibilities = this.generateNeighbourList(possibleTypes, 1);
-        this.possibleTypes = this.possibleTypes.filter(element => possibilities.includes(element));
-    }
-
-    propagateNorth(possibleTypes) {
-        var possibilities = this.generateNeighbourList(possibleTypes, 0);
-        this.possibleTypes = this.possibleTypes.filter(element => possibilities.includes(element));
-    }
-
-    propagateSouth(possibleTypes) {
-        var possibilities = this.generateNeighbourList(possibleTypes, 2);
-        this.possibleTypes = this.possibleTypes.filter(element => possibilities.includes(element));
-    }
-
-    generateNeighbourList(possibleTypes, direction){
-        var result = [];
-        for(var possible of possibleTypes){
-            result = result.concat(images[possible]["neighbours"][direction]);
+        //Check for next fields to propagate
+        if(this.x > 0){
+            nextPropagation.push(map[this.x-1][this.y]);
+            availableDirections.push([1, map[this.x-1][this.y].possibleTypes]);
         }
-        result = [...new Set(result)];
-        return result;
+
+        if(this.x < map.length - 1){
+            nextPropagation.push(map[this.x+1][this.y]);
+            availableDirections.push([3, map[this.x+1][this.y].possibleTypes]);
+        }
+
+        if(this.y > 0){
+            nextPropagation.push(map[this.x][this.y - 1]);
+            availableDirections.push([2, map[this.x][this.y-1].possibleTypes]);
+        }
+
+        if(this.y < map[this.x].length - 1){
+            nextPropagation.push(map[this.x][this.y + 1]);
+            availableDirections.push([0, map[this.x][this.y+1].possibleTypes]);
+        }
+
+        //Main logic - Propagate this field
+        if(!this.collapsed){
+            var temp = [];
+            var checker;
+
+            availableDirections.sort((a,b) => a[1].length - b[1].length);
+            for(var direction of availableDirections){
+                for(var possibilities of direction[1]){
+                    checker = images[possibilities]["neighbours"][direction[0]];
+                    for(var possible of this.possibleTypes){
+                        if(checker.includes(possible)){
+                            temp.push(possible);
+                        }
+                    }
+                }
+                temp = [...new Set(temp)];
+                this.possibleTypes = temp;
+                temp = [];
+            }
+        }
+
+
+        //Start neighbour propagation if DEPTH isn't reached
+        if(currentDepth <= DEPTH){
+            for(var field of nextPropagation){
+                field.propagate(currentDepth+1);
+            }
+        }
     }
 }
