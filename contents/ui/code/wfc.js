@@ -136,9 +136,6 @@ class Field {
 
     generateRandomType() {
         this.type = this.possibleTypes[Math.round(Math.random() * (this.possibleTypes.length - 1))];
-        if(!Number.isInteger(this.type)){
-            this.type = this.type.split("#")[0]
-        }
         this.possibleTypes = [];
         this.possibleTypes.push(this.type);
         this.collapsed = true;
@@ -146,6 +143,7 @@ class Field {
 
     paint(ctx) {
         if (!this.painted) {
+            if(this.type == null) return;
             ctx.drawImage(images[this.type]["image"], this.x * SIZE, this.y * SIZE);
             this.painted = true;
         }

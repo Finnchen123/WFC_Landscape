@@ -29,6 +29,7 @@ import org.kde.plasma.extras 2.0 as PlasmaExtras
 import org.kde.plasma.core 2.0 as Plasmacore
 
 import "code/wfc.js" as Wave
+import "code/landscape.js" as Landscape
 
 
 Canvas {
@@ -37,7 +38,7 @@ Canvas {
 
     //Neighbours are always the same: North, East, South, West
     function getImages(){
-        var usedTileset = "Roads";
+        var usedTileset = "Landscape";
         var imageList;
         switch(usedTileset){
             case "Roads":
@@ -75,6 +76,9 @@ Canvas {
                     {id: 15, path: "assets/Roads/Road_End_Up.png", neighbours: 
                         [[0,2,6,7,8,12,13,14],[0,5,8,10,11,12,13,15],[1, 4,5,6,7,8,11,12],[0,4,7,9,11,12,14,15]]}
                 ]
+            break;
+            case "Landscape":
+                imageList = Landscape.getLandscapeRules();
             break;
             default:
                 imageList = [
