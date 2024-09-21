@@ -1,5 +1,12 @@
 //ONLY FOR TESTING!
-const RULESET = getLandscapeRules();
+const RULESET = getDungeonRules();
+
+//REPLACE WITH QML SELECTION LATER
+/*
+0 = Landscape
+1 = Dungeon
+*/
+const TILESET = 1;
 
 //Holds all loaded images and neighbour lists
 var images = [];
@@ -185,6 +192,21 @@ class Field {
     }
 
     generateRandomType() {
+        switch(TILESET){
+            case 0:
+                this.type = this.getLandscapeType();
+                break;
+            case 1:
+                this.type = this.possibleTypes[Math.round(Math.random() * (this.possibleTypes.length - 1))]
+                break;
+        }
+        
+        this.possibleTypes = [];
+        this.possibleTypes.push(this.type);
+        this.collapsed = true;
+    }
+
+    getLandscapeType(){
         var temp;
         var index;
         var shouldBeRoad = Math.random() <= 0.2;
@@ -208,6 +230,11 @@ class Field {
             index = Math.round(Math.random() * (this.possibleTypes.length - 1));
             if(shouldBeRoad){
                 temp = this.possibleTypes[index];
+                if(temp == undefined){
+                    var ctx = document.getElementsByTagName("canvas")[0].getContext("2d");
+                    ctx.fillStyle = "pink"
+                    ctx.fillRect(this.x * 32, this.y * 32, 32, 32);
+                }
                 if(images[temp]["isRoad"]){
                     break;
                 }
@@ -221,11 +248,7 @@ class Field {
 
         }
 
-        this.type = temp;
-        
-        this.possibleTypes = [];
-        this.possibleTypes.push(this.type);
-        this.collapsed = true;
+        return temp;
     }
 
     getNonRoadNeighbour(){
@@ -320,7 +343,6 @@ class Field {
                 temp = [];
             }
         }
-
 
         //Start neighbour propagation if DEPTH isn't reached
         if(currentDepth <= DEPTH){

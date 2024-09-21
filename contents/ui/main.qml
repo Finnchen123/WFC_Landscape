@@ -29,7 +29,7 @@ import org.kde.plasma.extras 2.0 as PlasmaExtras
 import org.kde.plasma.core 2.0 as Plasmacore
 
 import "code/wfc.js" as Wave
-import "code/landscape.js" as Landscape
+import "code/ruleset.js" as Ruleset
 
 
 Canvas {
@@ -42,57 +42,16 @@ Canvas {
         var imageList;
         switch(usedTileset){
             case "Roads":
-                imageList = [
-                    {id: 0, path: "assets/Roads/A.png", neighbours: 
-                        [[0, 2,8,6,7, 12, 13, 14],[0, 11, 10, 5, 8, 12, 13,15],[0, 2, 3, 9, 10, 13, 14,15],[0, 11, 4, 7, 9, 12, 14,15]]},
-                    {id: 1, path: "assets/Roads/Road_Center.png", neighbours: 
-                        [[1, 3, 4, 5, 9, 10, 11, 15],[1, 2, 3, 4, 6, 7, 9, 14],[1, 4,5,6,7,8,11,12],[1, 2, 3, 5, 6, 8, 10, 13]]},
-                    {id: 2, path: "assets/Roads/Road_Horizontal.png", neighbours: 
-                        [[0, 2, 6, 7, 8, 12, 13, 14],[1, 2, 3, 4, 6, 7, 9, 14],[0, 2, 3, 9, 10, 13, 14, 15],[1, 2, 3,  5, 6, 8, 10, 13]]},
-                    {id: 3, path: "assets/Roads/Road_T_Down.png", neighbours: 
-                        [[0, 2, 6, 7, 8, 12, 14, 13],[1, 2, 3, 4, 6, 7, 9, 14],[1, 4,5,6,7,8,11, 12],[1, 2, 3,  5, 6, 8, 10, 13]]},
-                    {id: 4, path: "assets/Roads/Road_T_Left.png", neighbours: 
-                        [[1, 3, 4, 5, 9, 10, 11, 15],[0, 5, 8, 10, 11, 12, 13, 15],[1, 4,5,6,7,8,11, 12],[1, 2, 3, 5, 6, 8, 10, 13]]},
-                    {id: 5, path: "assets/Roads/Road_T_Right.png", neighbours: 
-                        [[1, 3, 4, 5, 9, 10, 11, 15],[1, 2, 3, 4, 6, 7, 9, 14],[1, 4,5,6,7,8,11, 12],[0, 4, 7, 9, 11, 12, 14, 15]]},
-                    {id: 6, path: "assets/Roads/Road_T_Up.png", neighbours: 
-                        [[1, 3, 4, 5, 9, 10, 11, 15],[1, 2, 3, 4, 6, 7, 9, 14],[0, 2, 3, 9, 10, 14, 13, 15],[1, 2, 3, 5, 6, 8, 10, 13]]},
-                    {id: 7, path: "assets/Roads/Road_Turn_Down_Left.png", neighbours: 
-                        [[1, 3, 4, 5, 9, 10, 11, 15],[0, 5, 8, 10, 11, 12, 13, 15],[0, 2, 3, 9, 10, 14, 13, 15],[1, 2, 3, 5, 6, 8, 10, 13]]},
-                    {id: 8, path: "assets/Roads/Road_Turn_Left_Up.png", neighbours: 
-                        [[1, 3, 4, 5, 9, 10, 11, 15],[1, 2, 3, 4, 6, 7, 9, 14],[0, 2, 3, 9, 10, 14, 13, 15],[0, 4, 7, 9, 11, 12, 14, 15]]},
-                    {id: 9, path: "assets/Roads/Road_Turn_Right_Down.png", neighbours: 
-                        [[0, 2, 6, 7, 8, 12, 14, 13],[0, 5, 8, 10, 11, 12, 13, 15],[1, 4,5,6,7,8,11, 12],[1, 2, 3, 5, 6, 8, 10, 13]]},
-                    {id: 10, path: "assets/Roads/Road_Turn_Up_Right.png", neighbours: 
-                        [[0, 2, 6, 7, 8, 12, 14, 13],[1, 2, 3, 4, 6, 7, 9, 14],[1, 4,5,6,7,8,11, 12],[0, 4, 7, 9, 11, 12, 14, 15]]},
-                    {id: 11, path: "assets/Roads/Road_Vertical.png", neighbours: 
-                        [[1, 3, 4, 5, 9, 10, 11,15],[0, 5, 8, 10, 11, 12, 13,15],[1, 4,5,6,7,8,11, 12],[0, 4, 7, 9, 11, 12,14,15]]},
-                    {id: 12, path: "assets/Roads/Road_End_Down.png", neighbours: 
-                        [[1,3,4,5,9,10,11,15],[0,5,8,10,11,12,13,15],[0,2,3,9,10,13,14,15],[0,4,7,9,11,12,14,15]]},
-                    {id: 13, path: "assets/Roads/Road_End_Left.png", neighbours: 
-                        [[0,2,6,7,8,12,13,14],[1,2,3,4,6,7,9,14],[0,2,3,9,10,13,14,15],[0,4,7,9,11,12,14,15]]},
-                    {id: 14, path: "assets/Roads/Road_End_Right.png", neighbours: 
-                        [[0,2,6,7,8,12,13,14],[0,5,8,10,11,12,13,15],[0,2,3,9,10,13,14,15],[1, 2, 3, 5, 6, 8, 10, 13]]},
-                    {id: 15, path: "assets/Roads/Road_End_Up.png", neighbours: 
-                        [[0,2,6,7,8,12,13,14],[0,5,8,10,11,12,13,15],[1, 4,5,6,7,8,11,12],[0,4,7,9,11,12,14,15]]}
-                ]
+                imageList = Ruleset.getRoadRules();
             break;
             case "Landscape":
-                imageList = Landscape.getLandscapeRules();
+                imageList = Ruleset.getLandscapeRules();
+            break;
+            case "Dungeon":
+                imageList = Ruleset.getDungeonRules();
             break;
             default:
-                imageList = [
-                    {id: 0, path: "assets/Nature/A.png", neighbours: [[0, 4],[0, 2],[0, 6],[0, 8]]},
-                    {id: 1, path: "assets/Nature/AB_East_South.png", neighbours: [[9],[9],[2, 5],[3, 4]]},
-                    {id: 2, path: "assets/Nature/AB_East.png", neighbours: [[2, 1],[9],[2, 5],[0, 8]]},
-                    {id: 3, path: "assets/Nature/AB_North_East.png", neighbours: [[9],[4, 1],[7, 8],[9]]},
-                    {id: 4, path: "assets/Nature/AB_North.png", neighbours: [[9],[4, 1],[0, 6],[4, 3]]},
-                    {id: 5, path: "assets/Nature/AB_South_West.png", neighbours: [[1, 2],[9],[9],[6, 7]]},
-                    {id: 6, path: "assets/Nature/AB_South.png", neighbours: [[0, 4],[6, 5],[9],[4, 7]]},
-                    {id: 7, path: "assets/Nature/AB_West_North.png", neighbours: [[3, 8],[5, 6],[9],[9]]},
-                    {id: 8, path: "assets/Nature/AB_West.png", neighbours: [[8, 3],[0, 2],[8, 7],[9]]},
-                    {id: 9, path: "assets/Nature/B.png", neighbours: [[9, 6],[9, 8],[9, 4],[9, 2]]}
-                ]
+                imageList = Ruleset.getDefaultRules();
             break;
         }
         return imageList;
