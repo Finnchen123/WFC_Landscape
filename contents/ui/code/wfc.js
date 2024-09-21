@@ -1,3 +1,6 @@
+//ONLY FOR TESTING!
+const RULESET = getLandscapeRules();
+
 //Holds all loaded images and neighbour lists
 var images = [];
 
@@ -21,10 +24,59 @@ const DEPTH = 2;
 var paintStart;
 var paintEnd;
 var duration;
-var loopNumber;
 var highestDuration;
 var lowestDuration;
-var gotError = false;
+
+// ---------------------------------
+// TESTING AREA START
+// ---------------------------------
+function startPaintLoop(){
+    var ctx = document.getElementsByTagName("canvas")[0].getContext("2d");
+    dimensionChanged(ctx.canvas.width, ctx.canvas.height)
+    loadImages();
+    waitForImages(ctx);
+}
+
+function waitForImages(ctx){
+    if(images.length == RULESET.length){
+        initialize();
+        doPaintLoop(ctx);
+    }
+    else{
+        setTimeout(function(){
+            waitForImages(ctx);
+        }, 40);
+    }
+}
+
+function doPaintLoop(ctx){
+    var isFinished = paintMatrix(ctx);
+    if(isFinished){
+        restart(ctx)
+        doPaintLoop(ctx);
+    }
+    else{
+        setTimeout(function(){
+            doPaintLoop(ctx);
+        }, 40);
+    }
+}
+
+function loadImages(){
+    var obj;
+    for(var image of RULESET){
+        obj = document.createElement("img");
+        obj.setAttribute("imageID", image["id"]);
+        obj.onload = function() {
+            images[Number(this.getAttribute("imageID"))] = { id: Number(this.getAttribute("imageID")), image: this, neighbours: RULESET[Number(this.getAttribute("imageID"))]["neighbours"], isRoad: RULESET[Number(this.getAttribute("imageID"))]["path"].toLowerCase().includes("road") };
+        }
+        obj.src = "../../" + image["path"];
+    }
+    
+}
+// ---------------------------------
+// TESTING AREA END
+// ---------------------------------
 
 function initialize() {
     map = [];
@@ -37,7 +89,6 @@ function initialize() {
 }
 
 function paintMatrix(ctx) {
-    //return true;
     paintStart = new Date();
     //Declare necessary variables
     var leastOptions = null;
@@ -104,13 +155,12 @@ function paintMatrix(ctx) {
 
 function saveImage(image, ctx) {
     var imageData = ctx.createImageData(image["path"]);
-    images[image["id"]] = { id: image["id"], image: imageData, neighbours: image["neighbours"] };
+    images[image["id"]] = { id: image["id"], image: imageData, neighbours: image["neighbours"], isRoad: image["path"].toLowerCase().includes("road") };
 }
 
 function restart(ctx) {
     console.log("Highest duration: " + highestDuration + "ms | Lowest duration: " + lowestDuration + "ms");
     console.log("-----------------------");
-    gotError = false;
     ctx.reset();
     initialize();
 }
@@ -135,10 +185,86 @@ class Field {
     }
 
     generateRandomType() {
-        this.type = this.possibleTypes[Math.round(Math.random() * (this.possibleTypes.length - 1))];
+        var temp;
+        var index;
+        var shouldBeRoad = Math.random() <= 0.2;
+        var shouldConnect = Math.random() <= 0.8;
+        var collapsedType = this.getNonRoadNeighbour();
+
+        var roadCounter = 0;
+        var fieldCounter = 0;
+        for(var option of this.possibleTypes){
+            if(images[option]["isRoad"]){
+                roadCounter++;
+            }
+            else{
+                fieldCounter++;
+            }
+        }
+
+        shouldBeRoad = (shouldBeRoad) ? roadCounter > 0 : fieldCounter <= 0;
+
+        for(var i = 0; i < 20; i++){
+            index = Math.round(Math.random() * (this.possibleTypes.length - 1));
+            if(shouldBeRoad){
+                temp = this.possibleTypes[index];
+                if(images[temp]["isRoad"]){
+                    break;
+                }
+            }
+            else{
+                temp = (collapsedType == undefined) ? this.possibleTypes[index] : (shouldConnect) ? collapsedType : this.possibleTypes[index];
+                if(!images[temp]["isRoad"]){
+                    break;
+                }
+            }
+
+        }
+
+        this.type = temp;
+        
         this.possibleTypes = [];
         this.possibleTypes.push(this.type);
         this.collapsed = true;
+    }
+
+    getNonRoadNeighbour(){
+        var resultList = [];
+
+        if(this.x > 0){
+            if(map[this.x-1][this.y].possibleTypes.length == 1){
+                resultList.push(map[this.x-1][this.y].possibleTypes[0]);
+            }
+        }
+
+        if(this.x < map.length - 1){
+            if(map[this.x+1][this.y].possibleTypes.length == 1){
+                resultList.push(map[this.x+1][this.y].possibleTypes[0]);
+            }
+        }
+
+        if(this.y > 0){
+            if(map[this.x][this.y-1].possibleTypes.length == 1){
+                resultList.push(map[this.x][this.y-1].possibleTypes[0]);
+            }
+        }
+
+        if(this.y < map[this.x].length - 1){
+            if(map[this.x][this.y+1].possibleTypes.length == 1){
+                resultList.push(map[this.x][this.y+1].possibleTypes[0]);
+            }
+        }
+
+        resultList = [...new Set(resultList)];
+        var temp = [];
+        for(var toTest of resultList){
+            if(!images[toTest]["isRoad"]){
+                temp.push(toTest);
+            }
+        }
+
+
+        return temp[Math.round(Math.random() * (temp.length - 1))];
     }
 
     paint(ctx) {

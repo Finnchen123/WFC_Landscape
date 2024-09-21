@@ -38,7 +38,7 @@ Canvas {
 
     //Neighbours are always the same: North, East, South, West
     function getImages(){
-        var usedTileset = "Landscape";
+        var usedTileset = "Roads";
         var imageList;
         switch(usedTileset){
             case "Roads":
