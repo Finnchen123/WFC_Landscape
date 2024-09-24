@@ -1,13 +1,6 @@
 //ONLY FOR TESTING!
 const RULESET = getDungeonRules();
 
-//REPLACE WITH QML SELECTION LATER
-/*
-0 = Landscape
-1 = Dungeon
-*/
-const TILESET = 1;
-
 //Holds all loaded images and neighbour lists
 var images = [];
 
@@ -21,18 +14,8 @@ var cell_count_y = 0;
 //Holds all different cells
 var map = [];
 
-//Checks if it is the first paint iteration or not | true = reload initialize for correct map generation | false = run normally
-var isFirstIteration = true;
-
 //Depth of propagation - Increase at own risk (Higher load) | Default: 2 (TESTED: 5 works but is slow, 10 breaks Plasma)
 const DEPTH = 2;
-
-//Variables for measurements
-var paintStart;
-var paintEnd;
-var duration;
-var highestDuration;
-var lowestDuration;
 
 // ---------------------------------
 // TESTING AREA START
@@ -96,31 +79,10 @@ function initialize() {
 }
 
 function paintMatrix(ctx) {
-    paintStart = new Date();
     //Declare necessary variables
     var leastOptions = null;
     var availableCollapse = [];
     var counterCollapsed = 0;
-
-    //Check if everything is properly initialized
-    if (isFirstIteration) {
-        loopNumber = 0;
-        highestDuration = 0;
-        lowestDuration = 0;
-        initialize();
-        isFirstIteration = false;
-        return false;
-    }
-
-    //Draw already collapsed fields
-    for(var i = 0; i < map.length; i++){
-        for(var j = 0; j < map[i].length; j++){
-            if (map[i][j].collapsed) {
-                map[i][j].paint(ctx);
-                counterCollapsed++;
-            }
-        }
-    }
 
     //Main logic - Find collapsable fields
 
@@ -147,15 +109,18 @@ function paintMatrix(ctx) {
     //Main logic - Collapse one random field if possibilities > 1, else collapse all fields with possibilities = 1
 
     if (availableCollapse.length > 0) {
-        var collapse = availableCollapse[Math.round(Math.random() * (availableCollapse.length - 1))];
-        collapse.generateRandomType();
-        collapse.propagate(0);
+        if(leastOptions.possibleTypes.length == 1){
+            for(var collapse of availableCollapse){
+                collapse.generateRandomType(ctx);
+                collapse.propagate(0);
+            }
+        }
+        else{
+            var collapse = availableCollapse[Math.round(Math.random() * (availableCollapse.length - 1))];
+            collapse.generateRandomType(ctx);
+            collapse.propagate(0);
+        }
     }
-    paintEnd = new Date();
-    duration = Math.abs(paintStart - paintEnd);
-    highestDuration = (highestDuration > duration) ? highestDuration : duration;
-    lowestDuration = (lowestDuration < duration) ? lowestDuration : duration;
-    loopNumber++;
 
     return counterCollapsed == map.length * map[0].length || availableCollapse.length <= 0;
 }
@@ -166,8 +131,6 @@ function saveImage(image, ctx) {
 }
 
 function restart(ctx) {
-    console.log("Highest duration: " + highestDuration + "ms | Lowest duration: " + lowestDuration + "ms");
-    console.log("-----------------------");
     ctx.reset();
     initialize();
 }
@@ -191,67 +154,17 @@ class Field {
         }
     }
 
-    generateRandomType() {
-        switch(TILESET){
-            case 0:
-                this.type = this.getLandscapeType();
-                break;
-            case 1:
-                this.type = this.possibleTypes[Math.round(Math.random() * (this.possibleTypes.length - 1))]
-                break;
-        }
-        
-        this.possibleTypes = [];
-        this.possibleTypes.push(this.type);
+    generateRandomType(ctx) {
+        var collapsedType = this.getNeighbourType();
+        var shouldConnect = Math.random() <= 0.6;
+        var index = Math.round(Math.random() * (this.possibleTypes.length - 1));
+        this.type = (collapsedType == undefined) ? this.possibleTypes[index] : (shouldConnect) ? collapsedType : this.possibleTypes[index];
+        this.possibleTypes = [this.type];
         this.collapsed = true;
+        this.paint(ctx)
     }
 
-    getLandscapeType(){
-        var temp;
-        var index;
-        var shouldBeRoad = Math.random() <= 0.2;
-        var shouldConnect = Math.random() <= 0.8;
-        var collapsedType = this.getNonRoadNeighbour();
-
-        var roadCounter = 0;
-        var fieldCounter = 0;
-        for(var option of this.possibleTypes){
-            if(images[option]["isRoad"]){
-                roadCounter++;
-            }
-            else{
-                fieldCounter++;
-            }
-        }
-
-        shouldBeRoad = (shouldBeRoad) ? roadCounter > 0 : fieldCounter <= 0;
-
-        for(var i = 0; i < 20; i++){
-            index = Math.round(Math.random() * (this.possibleTypes.length - 1));
-            if(shouldBeRoad){
-                temp = this.possibleTypes[index];
-                if(temp == undefined){
-                    var ctx = document.getElementsByTagName("canvas")[0].getContext("2d");
-                    ctx.fillStyle = "pink"
-                    ctx.fillRect(this.x * 32, this.y * 32, 32, 32);
-                }
-                if(images[temp]["isRoad"]){
-                    break;
-                }
-            }
-            else{
-                temp = (collapsedType == undefined) ? this.possibleTypes[index] : (shouldConnect) ? collapsedType : this.possibleTypes[index];
-                if(!images[temp]["isRoad"]){
-                    break;
-                }
-            }
-
-        }
-
-        return temp;
-    }
-
-    getNonRoadNeighbour(){
+    getNeighbourType(){
         var resultList = [];
 
         if(this.x > 0){
@@ -279,13 +192,13 @@ class Field {
         }
 
         resultList = [...new Set(resultList)];
+
         var temp = [];
-        for(var toTest of resultList){
-            if(!images[toTest]["isRoad"]){
-                temp.push(toTest);
+        for(var result of resultList){
+            if(this.possibleTypes.includes(result)){
+                temp.push(result)
             }
         }
-
 
         return temp[Math.round(Math.random() * (temp.length - 1))];
     }
