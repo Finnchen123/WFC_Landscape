@@ -30,6 +30,7 @@ import org.kde.plasma.core 2.0 as Plasmacore
 
 import "code/wfc.js" as Wave
 import "code/ruleset.js" as Ruleset
+import "code/field.js" as Field
 
 
 Canvas {
@@ -38,7 +39,7 @@ Canvas {
 
     //Neighbours are always the same: North, East, South, West
     function getImages(){
-        var usedTileset = "Roads";
+        var usedTileset = "Dungeon";
         var imageList;
         switch(usedTileset){
             case "Roads":
@@ -51,7 +52,7 @@ Canvas {
                 imageList = Ruleset.getDungeonRules();
             break;
             default:
-                imageList = Ruleset.getDefaultRules();
+                imageList = Ruleset.getLandscapeRules();
             break;
         }
         return imageList;
