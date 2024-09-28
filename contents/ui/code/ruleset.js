@@ -50,8 +50,8 @@ function getDungeonRules() {
         { id: 18, path: "assets/Dungeon/Hallway_Down_Left.png", neighbours: [[1,3,7,8,13,15,16],[3,4,6,8,12,15,17],[3,5,9,14,16,19],[0,8,10,21,22,14,17]] },
         { id: 19, path: "assets/Dungeon/Hallway_S_Reverted.png", neighbours: [[3,7,9,18,20],[0,7,10,21,22,14,20],[3,6,12,14,15,20],[1,6,11,13,15,20]] },
         { id: 20, path: "assets/Dungeon/Hallway_S.png", neighbours: [[3,8,12,17,19],[1,5,11,13,19],[3,5,9,14,16,19],[0,8,10,21,22,14,19]] },
-        { id: 21, path: "assets/Dungeon/Wall_Torch.png", neighbours: [[4,5,6,11],[0,7,10,21,22,14,18,20],[1,2,11,13],[0,8,10,21,22,14,17,19]] },
-        { id: 22, path: "assets/Dungeon/Wall_Cell.png", neighbours: [[4,5,6,11],[0,7,10,21,22,14,18,20],[1,2,11,13],[0,8,10,21,22,14,17,19]] }
+        { id: 21, path: "assets/Dungeon/Wall_Torch.png", neighbours: [[4,5,6,11],[0,7,10,22,14,18,20],[1,2,11,13],[0,8,10,22,14,17,19]] },
+        { id: 22, path: "assets/Dungeon/Wall_Cell.png", neighbours: [[4,5,6,11],[0,7,10,21,14,18,20],[1,2,11,13],[0,8,10,21,14,17,19]] }
     ]
 
     return rules;

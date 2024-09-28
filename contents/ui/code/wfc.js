@@ -1,5 +1,5 @@
 //ONLY FOR TESTING!
-const RULESET = getDungeonRules();
+//const RULESET = getDungeonRules();
 
 //Holds all loaded images and neighbour lists
 var images = [];
@@ -22,7 +22,7 @@ function initialize() {
     for (var i = 0; i < cell_count_x; i++) {
         map[i] = [];
         for (var j = 0; j < cell_count_y; j++) {
-            map[i][j] = new Field(i, j);
+            map[i][j] = new Field.Field(i, j);
         }
     }
 }

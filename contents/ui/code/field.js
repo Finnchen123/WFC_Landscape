@@ -6,8 +6,8 @@ class Field {
         this.type = null;
         this.possibleTypes = [];
         this.painted = false;
-        for (var i = 0; i < images.length; i++) {
-            this.possibleTypes[images[i]["id"]] = images[i]["id"];
+        for (var i = 0; i < Wave.images.length; i++) {
+            this.possibleTypes[Wave.images[i]["id"]] = Wave.images[i]["id"];
         }
     }
 
@@ -26,26 +26,26 @@ class Field {
         var resultList = [];
 
         if (this.x > 0) {
-            if (map[this.x - 1][this.y].possibleTypes.length == 1) {
-                resultList.push(map[this.x - 1][this.y].possibleTypes[0]);
+            if (Wave.map[this.x - 1][this.y].possibleTypes.length == 1) {
+                resultList.push(Wave.map[this.x - 1][this.y].possibleTypes[0]);
             }
         }
 
-        if (this.x < map.length - 1) {
-            if (map[this.x + 1][this.y].possibleTypes.length == 1) {
-                resultList.push(map[this.x + 1][this.y].possibleTypes[0]);
+        if (this.x < Wave.map.length - 1) {
+            if (Wave.map[this.x + 1][this.y].possibleTypes.length == 1) {
+                resultList.push(Wave.map[this.x + 1][this.y].possibleTypes[0]);
             }
         }
 
         if (this.y > 0) {
-            if (map[this.x][this.y - 1].possibleTypes.length == 1) {
-                resultList.push(map[this.x][this.y - 1].possibleTypes[0]);
+            if (Wave.map[this.x][this.y - 1].possibleTypes.length == 1) {
+                resultList.push(Wave.map[this.x][this.y - 1].possibleTypes[0]);
             }
         }
 
-        if (this.y < map[this.x].length - 1) {
-            if (map[this.x][this.y + 1].possibleTypes.length == 1) {
-                resultList.push(map[this.x][this.y + 1].possibleTypes[0]);
+        if (this.y < Wave.map[this.x].length - 1) {
+            if (Wave.map[this.x][this.y + 1].possibleTypes.length == 1) {
+                resultList.push(Wave.map[this.x][this.y + 1].possibleTypes[0]);
             }
         }
 
@@ -63,7 +63,7 @@ class Field {
 
     paint(ctx) {
         if (!this.painted) {
-            ctx.drawImage(images[this.type]["image"], this.x * SIZE, this.y * SIZE);
+            ctx.drawImage(Wave.images[this.type]["image"], this.x * Wave.SIZE, this.y * Wave.SIZE);
             this.painted = true;
         }
     }
@@ -74,34 +74,34 @@ class Field {
 
         //Check for next fields to propagate
         if (this.x > 0) {
-            if(!map[this.x - 1][this.y].propagated){
-                nextPropagation.push(map[this.x - 1][this.y]);
+            if(!Wave.map[this.x - 1][this.y].propagated){
+                nextPropagation.push(Wave.map[this.x - 1][this.y]);
             }
-            availableDirections.push([1, map[this.x - 1][this.y].possibleTypes]);
+            availableDirections.push([1, Wave.map[this.x - 1][this.y].possibleTypes]);
         }
 
-        if (this.x < map.length - 1) {
-            if(!map[this.x + 1][this.y].propagated){
-                nextPropagation.push(map[this.x + 1][this.y]);
+        if (this.x < Wave.map.length - 1) {
+            if(!Wave.map[this.x + 1][this.y].propagated){
+                nextPropagation.push(Wave.map[this.x + 1][this.y]);
             }
             
-            availableDirections.push([3, map[this.x + 1][this.y].possibleTypes]);
+            availableDirections.push([3, Wave.map[this.x + 1][this.y].possibleTypes]);
         }
 
         if (this.y > 0) {
-            if(!map[this.x][this.y - 1].propagated){
-                nextPropagation.push(map[this.x][this.y - 1]);
+            if(!Wave.map[this.x][this.y - 1].propagated){
+                nextPropagation.push(Wave.map[this.x][this.y - 1]);
             }
             
-            availableDirections.push([2, map[this.x][this.y - 1].possibleTypes]);
+            availableDirections.push([2, Wave.map[this.x][this.y - 1].possibleTypes]);
         }
 
-        if (this.y < map[this.x].length - 1) {
-            if(!map[this.x][this.y + 1].propagated){
-                nextPropagation.push(map[this.x][this.y + 1]);
+        if (this.y < Wave.map[this.x].length - 1) {
+            if(!Wave.map[this.x][this.y + 1].propagated){
+                nextPropagation.push(Wave.map[this.x][this.y + 1]);
             }
             
-            availableDirections.push([0, map[this.x][this.y + 1].possibleTypes]);
+            availableDirections.push([0, Wave.map[this.x][this.y + 1].possibleTypes]);
         }
 
         //Main logic - Propagate this field
@@ -112,7 +112,7 @@ class Field {
             availableDirections.sort((a, b) => a[1].length - b[1].length);
             for (var direction of availableDirections) {
                 for (var possibilities of direction[1]) {
-                    checker = images[possibilities]["neighbours"][direction[0]];
+                    checker = Wave.images[possibilities]["neighbours"][direction[0]];
                     for (var possible of this.possibleTypes) {
                         if (checker.includes(possible)) {
                             temp.push(possible);
@@ -126,7 +126,7 @@ class Field {
         }
 
         //Start neighbour propagation if DEPTH isn't reached
-        if (currentDepth <= DEPTH) {
+        if (currentDepth <= Wave.DEPTH) {
             for (var field of nextPropagation) {
                 field.propagate(currentDepth + 1);
             }
