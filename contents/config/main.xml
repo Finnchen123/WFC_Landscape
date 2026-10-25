@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0">
+    <kcfgfile name=""/>
+    <group name="General">
+        <entry name="Tileset" type="String"><default>SereneVillage</default></entry>
+        <entry name="StepInterval" type="Int"><default>40</default><min>10</min><max>1000</max></entry>
+        <entry name="RestartDelay" type="Int"><default>5</default><min>1</min><max>3600</max></entry>
+        <entry name="AutoRestart" type="Bool"><default>true</default></entry>
+        <entry name="ShowDecorations" type="Bool"><default>true</default></entry>
+    </group>
+</kcfg>

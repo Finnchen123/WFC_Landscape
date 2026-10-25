@@ -17,129 +17,169 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import QtQuick 2.1
-
-import QtQuick.Layouts 1.1
-
-import org.kde.plasma.core 2.0
-import org.kde.plasma.components 2.0 as PlasmaComponents
-import org.kde.plasma.extras 2.0 as PlasmaExtras
-
-//We need units from it
-import org.kde.plasma.core 2.0 as Plasmacore
+import QtQuick
+import org.kde.plasma.plasmoid
 
 import "code/wfc.js" as Wave
 import "code/ruleset.js" as Ruleset
 import "code/field.js" as Field
 
 
-Canvas {
-    id: root
-    anchors.fill: parent
+WallpaperItem {
+    id: wallpaper
 
-    Component.onCompleted: Wave.configure(Field.Field)
+    Canvas {
+        id: root
+        anchors.fill: parent
 
-    property string usedTileset: "SereneVillage"
-
-    //Neighbours are always the same: North, East, South, West
-    function getImages(){
-        var imageList;
-        switch(usedTileset){
-            case "SereneVillage":
-                imageList = Ruleset.getSereneVillageRules();
-            break;
-            case "Roads":
-                imageList = Ruleset.getRoadRules();
-            break;
-            case "Landscape":
-                imageList = Ruleset.getLandscapeRules();
-            break;
-            case "Dungeon":
-                imageList = Ruleset.getDungeonRules();
-            break;
-            default:
-                imageList = Ruleset.getLandscapeRules();
-            break;
-        }
-        return imageList;
-    }
-
-    property bool tilesInitialized: false
-    property var tileRules: getImages()
-    property var decorationRules: usedTileset === "SereneVillage" ? Ruleset.getSereneVillageDecorations() : []
-
-    onPaint: {
-        var ctx = getContext("2d");
-        var images = tileRules;
-        var canPaint = true;
-        var isFinished = false;
-        for(var i = 0; i < images.length; i++){
-            if(!isImageLoaded(images[i]["path"])){
-                canPaint = false;
-                loadImage(images[i]["path"]);
-            }
-            else{
-                Wave.saveImage(images[i], ctx.createImageData(images[i]["path"]));
-            }
+        property bool ready: false
+        Component.onCompleted: {
+            Wave.configure(Field.Field);
+            ready = true;
+            scheduleRestart();
         }
 
-        for (var j = 0; j < decorationRules.length; j++) {
-            var decoration = decorationRules[j];
-            if (!isImageLoaded(decoration.path)) {
-                canPaint = false;
-                loadImage(decoration.path);
-            } else {
-                Wave.saveDecoration(decoration, ctx.createImageData(decoration.path));
-            }
-        }
-
-        if(canPaint){
-            if (!tilesInitialized) {
-                Wave.initialize();
-                tilesInitialized = true;
-            }
-            isFinished = Wave.paintMatrix(ctx);
-        }
-
-        if(isFinished) {
+        property bool restartRequested: false
+        function scheduleRestart() {
+            if (!ready) return;
+            restartRequested = true;
             stepTimerWave.stop();
-            resetTimerWave.start();
-        };
-    }
+            resetTimerWave.stop();
+            if (available) requestPaint();
+        }
+        onAvailableChanged: scheduleRestart()
 
-    onWidthChanged: {
-        stepTimerWave.stop();
-        Wave.dimensionChanged(width,height);
-        stepTimerWave.start();
-    }
-    onHeightChanged: {
-        stepTimerWave.stop();
-        Wave.dimensionChanged(width,height);
-        stepTimerWave.start();
-    }
+        property string usedTileset: wallpaper.configuration.Tileset
+        property bool showDecorations: wallpaper.configuration.ShowDecorations
+        // A single deferred restart observes the complete applied configuration.
+        property string settingsKey: JSON.stringify([
+            wallpaper.configuration.Tileset,
+            wallpaper.configuration.StepInterval,
+            wallpaper.configuration.RestartDelay,
+            wallpaper.configuration.AutoRestart,
+            wallpaper.configuration.ShowDecorations
+        ])
+        onSettingsKeyChanged: scheduleRestart()
 
-    Timer {
-        id: stepTimerWave
-        interval: 40
-        repeat: true
-        running: true
-        triggeredOnStart: true
-
-        onTriggered: {
-            root.requestPaint();
+        // KConfigPropertyMap emits this when Plasma applies/reloads persisted values.
+        Connections {
+            target: wallpaper.configuration
+            function onValueChanged(key, value) {
+                if (["Tileset", "StepInterval", "RestartDelay", "AutoRestart", "ShowDecorations"].indexOf(key) !== -1) {
+                    root.scheduleRestart();
+                }
+            }
         }
 
-    }
-    
-    Timer {
-        id: resetTimerWave
-        interval: 5000
-        repeat: false
-        running: false
-        triggeredOnStart: false
-        onTriggered: {
-            Wave.restart(getContext("2d"));
-            stepTimerWave.start();
+        //Neighbours are always the same: North, East, South, West
+        function getImages(){
+            var imageList;
+            switch(wallpaper.configuration.Tileset){
+                case "SereneVillage":
+                    imageList = Ruleset.getSereneVillageRules();
+                break;
+                case "Roads":
+                    imageList = Ruleset.getRoadRules();
+                break;
+                case "Landscape":
+                    imageList = Ruleset.getLandscapeRules();
+                break;
+                case "Dungeon":
+                    imageList = Ruleset.getDungeonRules();
+                break;
+                default:
+                    imageList = Ruleset.getLandscapeRules();
+                break;
+            }
+            return imageList;
+        }
+
+        property bool tilesInitialized: false
+        property var tileRules: []
+        property var decorationRules: []
+
+        onPaint: {
+            if (!ready) return;
+            var ctx = getContext("2d");
+            // Consume configuration changes at the drawing boundary, even if
+            // generation had finished and the step timer was stopped.
+            if (restartRequested) {
+                restartRequested = false;
+                tileRules = getImages();
+                decorationRules = wallpaper.configuration.Tileset === "SereneVillage" && wallpaper.configuration.ShowDecorations
+                    ? Ruleset.getSereneVillageDecorations() : [];
+                Wave.clearTiles();
+                tilesInitialized = false;
+                Wave.dimensionChanged(width, height);
+                Wave.restart(ctx);
+                stepTimerWave.start();
+                console.debug("WFC generation restarted:", wallpaper.configuration.Tileset,
+                    wallpaper.configuration.StepInterval, wallpaper.configuration.RestartDelay);
+            }
+            var images = tileRules;
+            var canPaint = true;
+            var isFinished = false;
+            for(var i = 0; i < images.length; i++){
+                if(!isImageLoaded(images[i]["path"])){
+                    canPaint = false;
+                    loadImage(images[i]["path"]);
+                }
+                else{
+                    Wave.saveImage(images[i], ctx.createImageData(images[i]["path"]));
+                }
+            }
+
+            for (var j = 0; j < decorationRules.length; j++) {
+                var decoration = decorationRules[j];
+                if (!isImageLoaded(decoration.path)) {
+                    canPaint = false;
+                    loadImage(decoration.path);
+                } else {
+                    Wave.saveDecoration(decoration, ctx.createImageData(decoration.path));
+                }
+            }
+
+            if(canPaint){
+                if (!tilesInitialized) {
+                    Wave.initialize();
+                    tilesInitialized = true;
+                }
+                isFinished = Wave.paintMatrix(ctx);
+            }
+
+            if(isFinished) {
+                stepTimerWave.stop();
+                if (wallpaper.configuration.AutoRestart) resetTimerWave.start();
+            };
+        }
+
+        onWidthChanged: scheduleRestart()
+        onHeightChanged: scheduleRestart()
+
+        Timer {
+            id: stepTimerWave
+            interval: Math.max(10, Math.min(1000, wallpaper.configuration.StepInterval))
+            repeat: true
+            running: false
+            triggeredOnStart: true
+
+            onTriggered: {
+                root.requestPaint();
+            }
+
+        }
+        
+        Timer {
+            id: resetTimerWave
+            interval: Math.max(1, Math.min(3600, wallpaper.configuration.RestartDelay)) * 1000
+            repeat: false
+            running: false
+            triggeredOnStart: false
+            onTriggered: {
+                Wave.restart(root.getContext("2d"));
+                stepTimerWave.start();
+            }
         }
     }
+
 }

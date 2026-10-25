@@ -1,5 +1,5 @@
 // Change this function to preview another bundled tileset.
-const RULESET = getSereneVillageRules();
+const RULESET = getDungeonRules();
 const DECORATIONS = RULESET[0].path.indexOf("assets/SereneVillage/") === 0 ? getSereneVillageDecorations() : [];
 var loadedImageCount = 0;
 

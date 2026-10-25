@@ -90,7 +90,7 @@ function saveImage(image, imageData) {
 
 function restart(ctx) {
     if (typeof ctx.reset === "function") ctx.reset();
-    else ctx.clearRect(0, 0, cell_count_x * SIZE, cell_count_y * SIZE);
+    ctx.clearRect(0, 0, cell_count_x * SIZE, cell_count_y * SIZE);
     initialize();
 }
 
@@ -159,4 +159,11 @@ function paintDecorations(ctx, collapsedField) {
             }
         }
     }
+}
+
+
+// Tileset changes must discard images with IDs left over from a larger set.
+function clearTiles() {
+    images = [];
+    clearDecorations();
 }

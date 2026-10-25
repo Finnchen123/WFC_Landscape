@@ -16,15 +16,25 @@ Currently known bugs/issues:
 
 # How to use
 ## Requirements
-- You need to have a UNIX-OS with KDE Plasma anad the necessary rights on the device to setup wallpapers
-- Download the latest release from here or visit [INSERT LINK TO KDE PAGE HERE]
-    - You can also setup a wallpaper from Plasma: 
-        1. Rightclick your desktop
-        2. Select "Setup Screen or Workspace"
-        3. Select "Background"
-        4. Click "Get new Modules" and search for "WFC Landscape"
+
+KDE Plasma 6.
+
 ## Setup
-If you download it using the steps **a-d** from above you are already good to go. If you download it from Github you have to extract the archive into `~/.local/share/plasma/wallpapers/` and rename it to `org.kde.plasma.wfc_landscape`
+
+From the repository root, install the wallpaper plugin:
+
+```sh
+kpackagetool6 --type Plasma/Wallpaper --install .
+```
+
+To update an existing installation:
+
+```sh
+kpackagetool6 --type Plasma/Wallpaper --upgrade .
+```
+
+Reopen the desktop wallpaper settings and choose **WFC Landscape** in the
+wallpaper type selector. This is a wallpaper plugin, not an image file.
 
 ## Testing
 Serve the repository root with a local HTTP server:
@@ -60,6 +70,16 @@ ground during terrain collapse. Larger objects need enough open land.
 
 See [asset credits and licensing](contents/ui/assets/SereneVillage/ATTRIBUTION.md).
 
-For Plasma, choose the tileset by changing `usedTileset` in
-`contents/ui/main.qml`: `SereneVillage`, `Landscape`, `Dungeon` or `Roads`.
+Choose `SereneVillage`, `Landscape`, `Dungeon` or `Roads` in Plasma’s wallpaper settings.
 Some runs may encounter a contradiction and restart.
+
+
+## Generator settings
+
+Select **WFC Landscape** in Plasma's wallpaper settings to configure the tileset,
+time per collapse (10–1000 ms), automatic restart, restart pause (1–3600 seconds),
+and Serene Village decorations. Lower collapse times make generation faster.
+Every applied setting change starts a fresh generation, including changes to
+collapse time, restart pause, tileset and decoration settings.
+With automatic restart disabled, the final or partially generated image stays
+visible, including when WFC encounters a contradiction.
