@@ -1,27 +1,21 @@
-// Change this function to preview another bundled tileset.
-const RULESET = getDungeonRules();
-const DECORATIONS = RULESET[0].path.indexOf("assets/SereneVillage/") === 0 ? getSereneVillageDecorations() : [];
-var loadedImageCount = 0;
-
-function startPaintLoop(){
+// Choose SereneVillage, MiniWorld or DungeonII for the browser preview.
+const TILESET = "DungeonII";
+const RULESET = getRulesForTileset(TILESET);
+const DECORATIONS = getDecorationsForTileset(TILESET);
+async function startPaintLoop() {
+    var status = document.getElementById("status");
+    status.hidden = true;
     configure(Field);
-    clearDecorations();
+    clearTiles();
     var ctx = document.getElementsByTagName("canvas")[0].getContext("2d");
-    dimensionChanged(ctx.canvas.width, ctx.canvas.height)
-    loadImages();
-    loadDecorations();
-    waitForImages(ctx);
-}
-
-function waitForImages(ctx){
-    if(loadedImageCount == RULESET.length + DECORATIONS.length){
-        initialize();
+    try {
+        await Promise.all([loadImages(), loadDecorations()]);
+        dimensionChanged(ctx.canvas.width, ctx.canvas.height);
         doPaintLoop(ctx);
-    }
-    else{
-        setTimeout(function(){
-            waitForImages(ctx);
-        }, 40);
+    } catch (error) {
+        console.error(error);
+        status.textContent = error.message + " Reload the page to retry.";
+        status.hidden = false;
     }
 }
 
@@ -40,30 +34,32 @@ function doPaintLoop(ctx){
     }
 }
 
-function loadImages(){
-    var obj;
-    for(var image of RULESET){
-        obj = document.createElement("img");
-        obj.setAttribute("imageID", image["id"]);
-        obj.onerror = function() { console.error("Could not load tile:", this.src); };
-        obj.onload = function() {
-            loadedImageCount++;
-            saveImage(RULESET[Number(this.getAttribute("imageID"))], this);
-        }
-        obj.src = "../../" + image["path"];
-    }
-    
+function loadAssets(rules, register) {
+    return Promise.all(rules.map(function(rule) {
+        return new Promise(function(resolve, reject) {
+            var image = document.createElement("img");
+            var url = "../../" + rule.path;
+            var timeout = setTimeout(function() {
+                reject(new Error("Timed out loading " + url));
+            }, 15000);
+            image.onload = function() {
+                clearTimeout(timeout);
+                register(rule, image);
+                resolve();
+            };
+            image.onerror = function() {
+                clearTimeout(timeout);
+                reject(new Error("Could not load " + url));
+            };
+            image.src = url;
+        });
+    }));
+}
+
+function loadImages() {
+    return loadAssets(RULESET, saveImage);
 }
 
 function loadDecorations() {
-    for (var rule of DECORATIONS) {
-        var image = document.createElement("img");
-        image.setAttribute("decorationID", rule.id);
-        image.onerror = function() { console.error("Could not load decoration:", this.src); };
-        image.onload = function() {
-            saveDecoration(DECORATIONS[Number(this.getAttribute("decorationID"))], this);
-            loadedImageCount++;
-        };
-        image.src = "../../" + rule.path;
-    }
+    return loadAssets(DECORATIONS, saveDecoration);
 }

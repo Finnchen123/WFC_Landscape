@@ -2,14 +2,14 @@
     "KPlugin": {
         "Authors": [
             {
-                "Email": "%{EMAIL}",
-                "Name": "%{AUTHOR}"
+                "Name": "Finnchen123",
+                "Email": "finnchennicola@gmail.com"
             }
         ],
         "Description": "A random landscape generator based on WFC",
         "Icon": "plasma",
         "Id": "org.kde.plasma.wfc_landscape",
-        "License": "GPLv3",
+        "License": "GPL-3.0-only",
         "Name": "WFC Landscape",
         "Version": "0.2.0",
         "Website": "https://plasma.kde.org/"

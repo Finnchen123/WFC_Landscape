@@ -42,7 +42,7 @@ Kirigami.FormLayout {
         id: tileset
         objectName: "tileset"
         Kirigami.FormData.label: i18n("Tileset:")
-        model: ["SereneVillage", "Landscape", "Dungeon", "Roads"]
+        model: ["SereneVillage", "MiniWorld", "DungeonII"]
         currentIndex: 0
         onActivated: function(index) {
             page.cfg_Tileset = model[index];
@@ -66,9 +66,8 @@ Kirigami.FormLayout {
     }
     QQC2.CheckBox {
         id: decorations
-        text: i18n("Show houses, trees and flowers")
+        text: i18n("Show decorations")
         checked: page.cfg_ShowDecorations
-        enabled: page.cfg_Tileset === "SereneVillage"
         onToggled: {
             page.cfg_ShowDecorations = checked;
             page.configurationChanged();

@@ -1,21 +1,5 @@
-/*
- * Copyright (C) %{CURRENT_YEAR} by %{AUTHOR} <%{EMAIL}>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Library General Public License as
- * published by the Free Software Foundation; either version 2 or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details
- *
- * You should have received a copy of the GNU Library General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
+// SPDX-FileCopyrightText: 2026 Finnchen123 <finnchennicola@gmail.com>
+// SPDX-License-Identifier: GPL-3.0-only
 
 import QtQuick
 import org.kde.plasma.plasmoid
@@ -51,8 +35,6 @@ WallpaperItem {
         }
         onAvailableChanged: scheduleRestart()
 
-        property string usedTileset: wallpaper.configuration.Tileset
-        property bool showDecorations: wallpaper.configuration.ShowDecorations
         // Remember applied values: KConfig can emit valueChanged for unchanged keys.
         property bool autoRestart: wallpaper.configuration.AutoRestart
         property string observedSettingsKey: ""
@@ -88,29 +70,36 @@ WallpaperItem {
             }
         }
 
-        //Neighbours are always the same: North, East, South, West
-        function getImages(){
-            var imageList;
-            switch(wallpaper.configuration.Tileset){
-                case "SereneVillage":
-                    imageList = Ruleset.getSereneVillageRules();
-                break;
-                case "Roads":
-                    imageList = Ruleset.getRoadRules();
-                break;
-                case "Landscape":
-                    imageList = Ruleset.getLandscapeRules();
-                break;
-                case "Dungeon":
-                    imageList = Ruleset.getDungeonRules();
-                break;
-                default:
-                    imageList = Ruleset.getLandscapeRules();
-                break;
-            }
-            return imageList;
+        function getImages() {
+            return Ruleset.getRulesForTileset(wallpaper.configuration.Tileset);
         }
 
+        property string loadFailure: ""
+        property var requestedImages: ({})
+        function failLoading(path) {
+            loadFailure = i18n("Wallpaper assets could not be loaded. Change a setting to retry.");
+            console.error("WFC asset loading failed:", path);
+            stepTimerWave.stop();
+            resetTimerWave.stop();
+            assetLoadTimeout.stop();
+        }
+        function assetsReady(rules) {
+            var complete = true;
+            for (var rule of rules) {
+                if (isImageError(rule.path)) {
+                    failLoading(rule.path);
+                    return false;
+                }
+                if (!isImageLoaded(rule.path)) {
+                    complete = false;
+                    if (!requestedImages[rule.path]) {
+                        requestedImages[rule.path] = true;
+                        loadImage(rule.path);
+                    }
+                }
+            }
+            return complete;
+        }
         property bool tilesInitialized: false
         property var tileRules: []
         property var decorationRules: []
@@ -122,9 +111,15 @@ WallpaperItem {
             // generation had finished and the step timer was stopped.
             if (restartRequested) {
                 restartRequested = false;
+                assetLoadTimeout.stop();
+                for (var path in requestedImages) {
+                    if (!isImageLoaded(path)) unloadImage(path);
+                }
+                requestedImages = ({});
+                loadFailure = "";
                 tileRules = getImages();
-                decorationRules = wallpaper.configuration.Tileset === "SereneVillage" && wallpaper.configuration.ShowDecorations
-                    ? Ruleset.getSereneVillageDecorations() : [];
+                decorationRules = wallpaper.configuration.ShowDecorations
+                    ? Ruleset.getDecorationsForTileset(wallpaper.configuration.Tileset) : [];
                 Wave.clearTiles();
                 tilesInitialized = false;
                 Wave.dimensionChanged(width, height);
@@ -133,36 +128,26 @@ WallpaperItem {
                 console.debug("WFC generation restarted:", wallpaper.configuration.Tileset,
                     wallpaper.configuration.StepInterval, wallpaper.configuration.RestartDelay);
             }
-            var images = tileRules;
-            var canPaint = true;
-            var isFinished = false;
-            for(var i = 0; i < images.length; i++){
-                if(!isImageLoaded(images[i]["path"])){
-                    canPaint = false;
-                    loadImage(images[i]["path"]);
+            if (loadFailure.length) return;
+            if (!tilesInitialized) {
+                var terrainReady = assetsReady(tileRules);
+                var decorationReady = !loadFailure.length && assetsReady(decorationRules);
+                if (loadFailure.length) return;
+                if (!terrainReady || !decorationReady) {
+                    if (!assetLoadTimeout.running) assetLoadTimeout.start();
+                    return;
                 }
-                else{
-                    Wave.saveImage(images[i], ctx.createImageData(images[i]["path"]));
+                assetLoadTimeout.stop();
+                for (var tile of tileRules) {
+                    Wave.saveImage(tile, ctx.createImageData(tile.path));
                 }
-            }
-
-            for (var j = 0; j < decorationRules.length; j++) {
-                var decoration = decorationRules[j];
-                if (!isImageLoaded(decoration.path)) {
-                    canPaint = false;
-                    loadImage(decoration.path);
-                } else {
+                for (var decoration of decorationRules) {
                     Wave.saveDecoration(decoration, ctx.createImageData(decoration.path));
                 }
+                Wave.initialize();
+                tilesInitialized = true;
             }
-
-            if(canPaint){
-                if (!tilesInitialized) {
-                    Wave.initialize();
-                    tilesInitialized = true;
-                }
-                isFinished = Wave.paintMatrix(ctx);
-            }
+            var isFinished = Wave.paintMatrix(ctx);
 
             if(isFinished) {
                 stepTimerWave.stop();
@@ -172,6 +157,12 @@ WallpaperItem {
 
         onWidthChanged: scheduleRestart()
         onHeightChanged: scheduleRestart()
+
+        Timer {
+            id: assetLoadTimeout
+            interval: 15000
+            onTriggered: root.failLoading("timeout");
+        }
 
         Timer {
             id: stepTimerWave
@@ -199,4 +190,15 @@ WallpaperItem {
         }
     }
 
+    Text {
+        anchors.centerIn: parent
+        width: Math.min(parent.width - 32, 600)
+        visible: root.loadFailure.length > 0
+        text: root.loadFailure
+        color: "white"
+        style: Text.Outline
+        styleColor: "black"
+        wrapMode: Text.WordWrap
+        horizontalAlignment: Text.AlignHCenter
+    }
 }

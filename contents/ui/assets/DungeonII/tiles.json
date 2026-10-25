@@ -1,0 +1,279 @@
+[
+  {
+    "id": 0,
+    "name": "floor_1",
+    "path": "assets/DungeonII/floor_1.png",
+    "borderMask": 0,
+    "source": {
+      "file": "floor_1.png"
+    }
+  },
+  {
+    "id": 1,
+    "name": "floor_2",
+    "path": "assets/DungeonII/floor_2.png",
+    "borderMask": 0,
+    "source": {
+      "file": "floor_2.png"
+    }
+  },
+  {
+    "id": 2,
+    "name": "floor_3",
+    "path": "assets/DungeonII/floor_3.png",
+    "borderMask": 0,
+    "source": {
+      "file": "floor_3.png"
+    }
+  },
+  {
+    "id": 3,
+    "name": "floor_4",
+    "path": "assets/DungeonII/floor_4.png",
+    "borderMask": 0,
+    "source": {
+      "file": "floor_4.png"
+    }
+  },
+  {
+    "id": 4,
+    "name": "floor_5",
+    "path": "assets/DungeonII/floor_5.png",
+    "borderMask": 0,
+    "source": {
+      "file": "floor_5.png"
+    }
+  },
+  {
+    "id": 5,
+    "name": "floor_6",
+    "path": "assets/DungeonII/floor_6.png",
+    "borderMask": 0,
+    "source": {
+      "file": "floor_6.png"
+    }
+  },
+  {
+    "id": 6,
+    "name": "floor_7",
+    "path": "assets/DungeonII/floor_7.png",
+    "borderMask": 0,
+    "source": {
+      "file": "floor_7.png"
+    }
+  },
+  {
+    "id": 7,
+    "name": "floor_8",
+    "path": "assets/DungeonII/floor_8.png",
+    "borderMask": 0,
+    "source": {
+      "file": "floor_8.png"
+    }
+  },
+  {
+    "id": 8,
+    "name": "void",
+    "path": "assets/DungeonII/void.png",
+    "borderMask": -1,
+    "source": {
+      "file": "floor_1.png",
+      "operation": "flat background sampled at (0,0)"
+    }
+  },
+  {
+    "id": 9,
+    "name": "room_border_1",
+    "path": "assets/DungeonII/room_border_1.png",
+    "borderMask": 1,
+    "source": {
+      "background": "floor_1.png",
+      "north": "atlas_walls_low-16x16.png rectangle (32,16,16,16)",
+      "south": "wall_top_mid.png",
+      "west": "wall_edge_left.png first four columns",
+      "east": "wall_edge_right.png last four columns"
+    }
+  },
+  {
+    "id": 10,
+    "name": "room_border_2",
+    "path": "assets/DungeonII/room_border_2.png",
+    "borderMask": 2,
+    "source": {
+      "background": "floor_1.png",
+      "north": "atlas_walls_low-16x16.png rectangle (32,16,16,16)",
+      "south": "wall_top_mid.png",
+      "west": "wall_edge_left.png first four columns",
+      "east": "wall_edge_right.png last four columns"
+    }
+  },
+  {
+    "id": 11,
+    "name": "room_border_3",
+    "path": "assets/DungeonII/room_border_3.png",
+    "borderMask": 3,
+    "source": {
+      "background": "floor_1.png",
+      "north": "atlas_walls_low-16x16.png rectangle (32,16,16,16)",
+      "south": "wall_top_mid.png",
+      "west": "wall_edge_left.png first four columns",
+      "east": "wall_edge_right.png last four columns"
+    }
+  },
+  {
+    "id": 12,
+    "name": "room_border_4",
+    "path": "assets/DungeonII/room_border_4.png",
+    "borderMask": 4,
+    "source": {
+      "background": "floor_1.png",
+      "north": "atlas_walls_low-16x16.png rectangle (32,16,16,16)",
+      "south": "wall_top_mid.png",
+      "west": "wall_edge_left.png first four columns",
+      "east": "wall_edge_right.png last four columns"
+    }
+  },
+  {
+    "id": 13,
+    "name": "room_border_5",
+    "path": "assets/DungeonII/room_border_5.png",
+    "borderMask": 5,
+    "source": {
+      "background": "floor_1.png",
+      "north": "atlas_walls_low-16x16.png rectangle (32,16,16,16)",
+      "south": "wall_top_mid.png",
+      "west": "wall_edge_left.png first four columns",
+      "east": "wall_edge_right.png last four columns"
+    }
+  },
+  {
+    "id": 14,
+    "name": "room_border_6",
+    "path": "assets/DungeonII/room_border_6.png",
+    "borderMask": 6,
+    "source": {
+      "background": "floor_1.png",
+      "north": "atlas_walls_low-16x16.png rectangle (32,16,16,16)",
+      "south": "wall_top_mid.png",
+      "west": "wall_edge_left.png first four columns",
+      "east": "wall_edge_right.png last four columns"
+    }
+  },
+  {
+    "id": 15,
+    "name": "room_border_7",
+    "path": "assets/DungeonII/room_border_7.png",
+    "borderMask": 7,
+    "source": {
+      "background": "floor_1.png",
+      "north": "atlas_walls_low-16x16.png rectangle (32,16,16,16)",
+      "south": "wall_top_mid.png",
+      "west": "wall_edge_left.png first four columns",
+      "east": "wall_edge_right.png last four columns"
+    }
+  },
+  {
+    "id": 16,
+    "name": "room_border_8",
+    "path": "assets/DungeonII/room_border_8.png",
+    "borderMask": 8,
+    "source": {
+      "background": "floor_1.png",
+      "north": "atlas_walls_low-16x16.png rectangle (32,16,16,16)",
+      "south": "wall_top_mid.png",
+      "west": "wall_edge_left.png first four columns",
+      "east": "wall_edge_right.png last four columns"
+    }
+  },
+  {
+    "id": 17,
+    "name": "room_border_9",
+    "path": "assets/DungeonII/room_border_9.png",
+    "borderMask": 9,
+    "source": {
+      "background": "floor_1.png",
+      "north": "atlas_walls_low-16x16.png rectangle (32,16,16,16)",
+      "south": "wall_top_mid.png",
+      "west": "wall_edge_left.png first four columns",
+      "east": "wall_edge_right.png last four columns"
+    }
+  },
+  {
+    "id": 18,
+    "name": "room_border_10",
+    "path": "assets/DungeonII/room_border_10.png",
+    "borderMask": 10,
+    "source": {
+      "background": "floor_1.png",
+      "north": "atlas_walls_low-16x16.png rectangle (32,16,16,16)",
+      "south": "wall_top_mid.png",
+      "west": "wall_edge_left.png first four columns",
+      "east": "wall_edge_right.png last four columns"
+    }
+  },
+  {
+    "id": 19,
+    "name": "room_border_11",
+    "path": "assets/DungeonII/room_border_11.png",
+    "borderMask": 11,
+    "source": {
+      "background": "floor_1.png",
+      "north": "atlas_walls_low-16x16.png rectangle (32,16,16,16)",
+      "south": "wall_top_mid.png",
+      "west": "wall_edge_left.png first four columns",
+      "east": "wall_edge_right.png last four columns"
+    }
+  },
+  {
+    "id": 20,
+    "name": "room_border_12",
+    "path": "assets/DungeonII/room_border_12.png",
+    "borderMask": 12,
+    "source": {
+      "background": "floor_1.png",
+      "north": "atlas_walls_low-16x16.png rectangle (32,16,16,16)",
+      "south": "wall_top_mid.png",
+      "west": "wall_edge_left.png first four columns",
+      "east": "wall_edge_right.png last four columns"
+    }
+  },
+  {
+    "id": 21,
+    "name": "room_border_13",
+    "path": "assets/DungeonII/room_border_13.png",
+    "borderMask": 13,
+    "source": {
+      "background": "floor_1.png",
+      "north": "atlas_walls_low-16x16.png rectangle (32,16,16,16)",
+      "south": "wall_top_mid.png",
+      "west": "wall_edge_left.png first four columns",
+      "east": "wall_edge_right.png last four columns"
+    }
+  },
+  {
+    "id": 22,
+    "name": "room_border_14",
+    "path": "assets/DungeonII/room_border_14.png",
+    "borderMask": 14,
+    "source": {
+      "background": "floor_1.png",
+      "north": "atlas_walls_low-16x16.png rectangle (32,16,16,16)",
+      "south": "wall_top_mid.png",
+      "west": "wall_edge_left.png first four columns",
+      "east": "wall_edge_right.png last four columns"
+    }
+  },
+  {
+    "id": 23,
+    "name": "room_border_15",
+    "path": "assets/DungeonII/room_border_15.png",
+    "borderMask": 15,
+    "source": {
+      "background": "floor_1.png",
+      "north": "atlas_walls_low-16x16.png rectangle (32,16,16,16)",
+      "south": "wall_top_mid.png",
+      "west": "wall_edge_left.png first four columns",
+      "east": "wall_edge_right.png last four columns"
+    }
+  }
+]

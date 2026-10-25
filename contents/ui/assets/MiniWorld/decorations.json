@@ -1,0 +1,314 @@
+[
+  {
+    "id": 0,
+    "path": "assets/MiniWorld/house_red.png",
+    "width": 1,
+    "height": 1,
+    "kind": "house",
+    "chance": 0.12,
+    "terrainIds": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "RedHouses.png",
+      "rect": [
+        0,
+        16,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 1,
+    "path": "assets/MiniWorld/house_tall.png",
+    "width": 1,
+    "height": 1,
+    "kind": "house",
+    "chance": 0.1,
+    "terrainIds": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "RedHouses.png",
+      "rect": [
+        16,
+        32,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 2,
+    "path": "assets/MiniWorld/hut.png",
+    "width": 1,
+    "height": 1,
+    "kind": "house",
+    "chance": 0.08,
+    "terrainIds": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "RedHuts.png",
+      "rect": [
+        16,
+        0,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 3,
+    "path": "assets/MiniWorld/tower.png",
+    "width": 1,
+    "height": 1,
+    "kind": "house",
+    "chance": 0.06,
+    "terrainIds": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "RedTower.png",
+      "rect": [
+        0,
+        0,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 4,
+    "path": "assets/MiniWorld/tree_round.png",
+    "width": 1,
+    "height": 1,
+    "kind": "tree",
+    "chance": 0.18,
+    "terrainIds": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "Trees.png",
+      "rect": [
+        16,
+        0,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 5,
+    "path": "assets/MiniWorld/tree_pine.png",
+    "width": 1,
+    "height": 1,
+    "kind": "tree",
+    "chance": 0.12,
+    "terrainIds": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "Trees.png",
+      "rect": [
+        32,
+        0,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 6,
+    "path": "assets/MiniWorld/rock.png",
+    "width": 1,
+    "height": 1,
+    "kind": "rock",
+    "chance": 0.08,
+    "terrainIds": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "Rocks.png",
+      "rect": [
+        0,
+        0,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 7,
+    "path": "assets/MiniWorld/keep.png",
+    "width": 3,
+    "height": 2,
+    "kind": "house",
+    "chance": 0.12,
+    "terrainIds": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "RedKeep.png",
+      "rect": [
+        0,
+        0,
+        48,
+        32
+      ]
+    }
+  },
+  {
+    "id": 8,
+    "path": "assets/MiniWorld/chapel.png",
+    "width": 1,
+    "height": 1,
+    "kind": "house",
+    "chance": 0.04,
+    "terrainIds": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "RedChapels.png",
+      "rect": [
+        16,
+        16,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 9,
+    "path": "assets/MiniWorld/market.png",
+    "width": 1,
+    "height": 1,
+    "kind": "house",
+    "chance": 0.04,
+    "terrainIds": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "RedMarket.png",
+      "rect": [
+        0,
+        16,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 10,
+    "path": "assets/MiniWorld/wheat.png",
+    "width": 1,
+    "height": 1,
+    "kind": "plant",
+    "chance": 0.08,
+    "terrainIds": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "Wheatfield.png",
+      "rect": [
+        16,
+        0,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 11,
+    "path": "assets/MiniWorld/palm.png",
+    "width": 1,
+    "height": 1,
+    "kind": "tree",
+    "chance": 0.05,
+    "terrainIds": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "CoconutTrees.png",
+      "rect": [
+        32,
+        0,
+        16,
+        16
+      ]
+    }
+  }
+]

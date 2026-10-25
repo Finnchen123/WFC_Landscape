@@ -16,7 +16,7 @@ class Field {
     generateRandomType(ctx) {
         var collapsedType = this.getNeighbourType();
         var shouldConnect = Math.random() <= 0.6;
-        var index = Math.round(Math.random() * (this.possibleTypes.length - 1));
+        var index = Math.floor(Math.random() * this.possibleTypes.length);
         this.type = (collapsedType == undefined) ? this.possibleTypes[index] : (shouldConnect) ? collapsedType : this.possibleTypes[index];
         this.possibleTypes = [];
         this.possibleTypes.push(this.type)
@@ -61,7 +61,7 @@ class Field {
             }
         }
 
-        return temp[Math.round(Math.random() * (temp.length - 1))];
+        return temp[Math.floor(Math.random() * temp.length)];
     }
 
     paint(ctx) {
@@ -82,32 +82,24 @@ class Field {
 
         //Check for next fields to propagate
         if (this.x > 0) {
-            if(!map[this.x - 1][this.y].propagated){
-                nextPropagation.push(map[this.x - 1][this.y]);
-            }
+            nextPropagation.push(map[this.x - 1][this.y]);
             availableDirections.push([1, map[this.x - 1][this.y].possibleTypes]);
         }
 
         if (this.x < map.length - 1) {
-            if(!map[this.x + 1][this.y].propagated){
-                nextPropagation.push(map[this.x + 1][this.y]);
-            }
+            nextPropagation.push(map[this.x + 1][this.y]);
             
             availableDirections.push([3, map[this.x + 1][this.y].possibleTypes]);
         }
 
         if (this.y > 0) {
-            if(!map[this.x][this.y - 1].propagated){
-                nextPropagation.push(map[this.x][this.y - 1]);
-            }
+            nextPropagation.push(map[this.x][this.y - 1]);
             
             availableDirections.push([2, map[this.x][this.y - 1].possibleTypes]);
         }
 
         if (this.y < map[this.x].length - 1) {
-            if(!map[this.x][this.y + 1].propagated){
-                nextPropagation.push(map[this.x][this.y + 1]);
-            }
+            nextPropagation.push(map[this.x][this.y + 1]);
             
             availableDirections.push([0, map[this.x][this.y + 1].possibleTypes]);
         }

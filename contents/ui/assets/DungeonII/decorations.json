@@ -1,0 +1,134 @@
+[
+  {
+    "id": 0,
+    "path": "assets/DungeonII/chest.png",
+    "width": 1,
+    "height": 1,
+    "kind": "house",
+    "chance": 0.06,
+    "terrainIds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "chest_full_open_anim_f0.png",
+      "padding": "transparent, bottom aligned"
+    }
+  },
+  {
+    "id": 1,
+    "path": "assets/DungeonII/crate.png",
+    "width": 1,
+    "height": 2,
+    "kind": "rock",
+    "chance": 0.05,
+    "terrainIds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "crate.png",
+      "padding": "transparent, bottom aligned"
+    }
+  },
+  {
+    "id": 2,
+    "path": "assets/DungeonII/column.png",
+    "width": 1,
+    "height": 3,
+    "kind": "tree",
+    "chance": 0.04,
+    "terrainIds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "column.png",
+      "padding": "transparent, bottom aligned"
+    }
+  },
+  {
+    "id": 3,
+    "path": "assets/DungeonII/skull.png",
+    "width": 1,
+    "height": 1,
+    "kind": "plant",
+    "chance": 0.025,
+    "terrainIds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "skull.png",
+      "padding": "transparent, bottom aligned"
+    }
+  },
+  {
+    "id": 4,
+    "path": "assets/DungeonII/flask_red.png",
+    "width": 1,
+    "height": 1,
+    "kind": "plant",
+    "chance": 0.025,
+    "terrainIds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "flask_red.png",
+      "padding": "transparent, bottom aligned"
+    }
+  },
+  {
+    "id": 5,
+    "path": "assets/DungeonII/flask_blue.png",
+    "width": 1,
+    "height": 1,
+    "kind": "plant",
+    "chance": 0.025,
+    "terrainIds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "source": {
+      "file": "flask_blue.png",
+      "padding": "transparent, bottom aligned"
+    }
+  }
+]

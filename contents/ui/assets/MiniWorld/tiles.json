@@ -1,0 +1,402 @@
+[
+  {
+    "id": 0,
+    "name": "grass",
+    "path": "assets/MiniWorld/grass.png",
+    "edges": [
+      "gg",
+      "gg",
+      "gg",
+      "gg"
+    ],
+    "source": {
+      "file": "Grass.png",
+      "rect": [
+        16,
+        0,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 1,
+    "name": "water",
+    "path": "assets/MiniWorld/water.png",
+    "edges": [
+      "ww",
+      "ww",
+      "ww",
+      "ww"
+    ],
+    "source": {
+      "file": "Grass.png",
+      "rect": [
+        0,
+        0,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 2,
+    "name": "grass_texture_0_0",
+    "path": "assets/MiniWorld/grass_texture_0_0.png",
+    "edges": [
+      "gg",
+      "gg",
+      "gg",
+      "gg"
+    ],
+    "source": {
+      "file": "TexturedGrass.png",
+      "rect": [
+        0,
+        0,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 3,
+    "name": "grass_texture_1_0",
+    "path": "assets/MiniWorld/grass_texture_1_0.png",
+    "edges": [
+      "gg",
+      "gg",
+      "gg",
+      "gg"
+    ],
+    "source": {
+      "file": "TexturedGrass.png",
+      "rect": [
+        16,
+        0,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 4,
+    "name": "grass_texture_2_0",
+    "path": "assets/MiniWorld/grass_texture_2_0.png",
+    "edges": [
+      "gg",
+      "gg",
+      "gg",
+      "gg"
+    ],
+    "source": {
+      "file": "TexturedGrass.png",
+      "rect": [
+        32,
+        0,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 5,
+    "name": "grass_texture_0_1",
+    "path": "assets/MiniWorld/grass_texture_0_1.png",
+    "edges": [
+      "gg",
+      "gg",
+      "gg",
+      "gg"
+    ],
+    "source": {
+      "file": "TexturedGrass.png",
+      "rect": [
+        0,
+        16,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 6,
+    "name": "grass_texture_1_1",
+    "path": "assets/MiniWorld/grass_texture_1_1.png",
+    "edges": [
+      "gg",
+      "gg",
+      "gg",
+      "gg"
+    ],
+    "source": {
+      "file": "TexturedGrass.png",
+      "rect": [
+        16,
+        16,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 7,
+    "name": "grass_texture_2_1",
+    "path": "assets/MiniWorld/grass_texture_2_1.png",
+    "edges": [
+      "gg",
+      "gg",
+      "gg",
+      "gg"
+    ],
+    "source": {
+      "file": "TexturedGrass.png",
+      "rect": [
+        32,
+        16,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 8,
+    "name": "coast_nw",
+    "path": "assets/MiniWorld/coast_nw.png",
+    "edges": [
+      "ww",
+      "wg",
+      "wg",
+      "ww"
+    ],
+    "source": {
+      "file": "Cliff-Water.png",
+      "rect": [
+        0,
+        0,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 9,
+    "name": "coast_n",
+    "path": "assets/MiniWorld/coast_n.png",
+    "edges": [
+      "ww",
+      "wg",
+      "gg",
+      "wg"
+    ],
+    "source": {
+      "file": "Cliff-Water.png",
+      "rect": [
+        16,
+        0,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 10,
+    "name": "coast_ne",
+    "path": "assets/MiniWorld/coast_ne.png",
+    "edges": [
+      "ww",
+      "ww",
+      "gw",
+      "wg"
+    ],
+    "source": {
+      "file": "Cliff-Water.png",
+      "rect": [
+        32,
+        0,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 11,
+    "name": "coast_w",
+    "path": "assets/MiniWorld/coast_w.png",
+    "edges": [
+      "wg",
+      "gg",
+      "wg",
+      "ww"
+    ],
+    "source": {
+      "file": "Cliff-Water.png",
+      "rect": [
+        0,
+        16,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 12,
+    "name": "coast_e",
+    "path": "assets/MiniWorld/coast_e.png",
+    "edges": [
+      "gw",
+      "ww",
+      "gw",
+      "gg"
+    ],
+    "source": {
+      "file": "Cliff-Water.png",
+      "rect": [
+        32,
+        16,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 13,
+    "name": "coast_sw",
+    "path": "assets/MiniWorld/coast_sw.png",
+    "edges": [
+      "wg",
+      "gw",
+      "ww",
+      "ww"
+    ],
+    "source": {
+      "file": "Cliff-Water.png",
+      "rect": [
+        0,
+        32,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 14,
+    "name": "coast_s",
+    "path": "assets/MiniWorld/coast_s.png",
+    "edges": [
+      "gg",
+      "gw",
+      "ww",
+      "gw"
+    ],
+    "source": {
+      "file": "Cliff-Water.png",
+      "rect": [
+        16,
+        32,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 15,
+    "name": "coast_se",
+    "path": "assets/MiniWorld/coast_se.png",
+    "edges": [
+      "gw",
+      "ww",
+      "ww",
+      "gw"
+    ],
+    "source": {
+      "file": "Cliff-Water.png",
+      "rect": [
+        32,
+        32,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 16,
+    "name": "coast_inner_nw",
+    "path": "assets/MiniWorld/coast_inner_nw.png",
+    "edges": [
+      "wg",
+      "gg",
+      "gg",
+      "wg"
+    ],
+    "source": {
+      "file": "Cliff-Water.png",
+      "rect": [
+        48,
+        0,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 17,
+    "name": "coast_inner_ne",
+    "path": "assets/MiniWorld/coast_inner_ne.png",
+    "edges": [
+      "gw",
+      "wg",
+      "gg",
+      "gg"
+    ],
+    "source": {
+      "file": "Cliff-Water.png",
+      "rect": [
+        64,
+        0,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 18,
+    "name": "coast_inner_sw",
+    "path": "assets/MiniWorld/coast_inner_sw.png",
+    "edges": [
+      "gg",
+      "gg",
+      "wg",
+      "gw"
+    ],
+    "source": {
+      "file": "Cliff-Water.png",
+      "rect": [
+        48,
+        16,
+        16,
+        16
+      ]
+    }
+  },
+  {
+    "id": 19,
+    "name": "coast_inner_se",
+    "path": "assets/MiniWorld/coast_inner_se.png",
+    "edges": [
+      "gg",
+      "gw",
+      "gw",
+      "gg"
+    ],
+    "source": {
+      "file": "Cliff-Water.png",
+      "rect": [
+        64,
+        16,
+        16,
+        16
+      ]
+    }
+  }
+]
