@@ -6,6 +6,7 @@ The background is currently working and supports the following tilesets:
 - Dungeon
 - Landscape
 - Roads
+- Serene Village (default; grass, dirt and water)
 
 It uses 32x32 pixel sized images and takes around 1:30 minutes for a 1920x1080 screen
 
@@ -26,11 +27,36 @@ Currently known bugs/issues:
 If you download it using the steps **a-d** from above you are already good to go. If you download it from Github you have to extract the archive into `~/.local/share/plasma/wallpapers/` and rename it to `org.kde.plasma.wfc_landscape`
 
 ## Testing
-The uploaded code will always be in a state that works with Plasma. Problem is: Plasma and JS handle separate files differently. If you want to use the testing
-code that I implemented you need to do the following (and obviously reverse it if you want it to work with Plasma again):
+Serve the repository root with a local HTTP server:
 
-- Go to `contents/ui/code/wfc.js` and uncomment the line `//const RULESET = getDungeonRules();`
-- Replace all occurences of `Wave.` in `contents/ui/code/field.js`
-    - If you want to change it back for Plasma you need to put `Wave.` in front of all methods and variables that come from `contents/ui/code/wfc.js`
-- Replace all occurences of `Field.` in `contents/ui/code/wfc.js`
-    - If you want to change it back for Plasma you need to put `Field.` here `map[i][j] = new Field(i, j);` in front of `Field(i, j);`
+```sh
+python3 -m http.server 8000
+```
+
+Open http://localhost:8000/contents/ui/code/testing/index.html.
+The browser preview and Plasma use the same rules and field implementation;
+no namespace edits, commented imports or release-time code changes are needed.
+Browser-only startup and image loading live in `testing/testing.js`; Plasma
+startup and image loading live in `main.qml`. Both entry points pass their
+Field constructor to `configure()` and their loaded images to `saveImage()`.
+`wfc.js` and `field.js` contain the shared generator without browser or QML
+namespace detection. Change `RULESET` in
+`contents/ui/code/testing/testing.js` to preview a different tileset.
+
+The shared generator also has a regression check for a common browser scope
+and separate QML-style script scopes:
+
+```sh
+node tests/runtime.js
+```
+
+This checks initialization, loaded images, generation, restart and an empty
+canvas. It does not replace testing inside Plasma.
+
+## Serene Village
+
+See [asset credits and licensing](contents/ui/assets/SereneVillage/ATTRIBUTION.md).
+
+For Plasma, choose the tileset by changing `usedTileset` in
+`contents/ui/main.qml`: `SereneVillage`, `Landscape`, `Dungeon` or `Roads`.
+Some runs may encounter a contradiction and restart.

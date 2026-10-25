@@ -1,4 +1,9 @@
+// Change this function to preview another bundled tileset.
+const RULESET = getSereneVillageRules();
+var loadedImageCount = 0;
+
 function startPaintLoop(){
+    configure(Field);
     var ctx = document.getElementsByTagName("canvas")[0].getContext("2d");
     dimensionChanged(ctx.canvas.width, ctx.canvas.height)
     loadImages();
@@ -6,7 +11,7 @@ function startPaintLoop(){
 }
 
 function waitForImages(ctx){
-    if(images.length == RULESET.length){
+    if(loadedImageCount == RULESET.length){
         initialize();
         doPaintLoop(ctx);
     }
@@ -20,8 +25,10 @@ function waitForImages(ctx){
 function doPaintLoop(ctx){
     var isFinished = paintMatrix(ctx);
     if(isFinished){
-        restart(ctx)
-        doPaintLoop(ctx);
+        setTimeout(function() {
+            restart(ctx);
+            doPaintLoop(ctx);
+        }, 1000);
     }
     else{
         setTimeout(function(){
@@ -35,8 +42,10 @@ function loadImages(){
     for(var image of RULESET){
         obj = document.createElement("img");
         obj.setAttribute("imageID", image["id"]);
+        obj.onerror = function() { console.error("Could not load tile:", this.src); };
         obj.onload = function() {
-            images[Number(this.getAttribute("imageID"))] = { id: Number(this.getAttribute("imageID")), image: this, neighbours: RULESET[Number(this.getAttribute("imageID"))]["neighbours"], isRoad: RULESET[Number(this.getAttribute("imageID"))]["path"].toLowerCase().includes("road") };
+            loadedImageCount++;
+            saveImage(RULESET[Number(this.getAttribute("imageID"))], this);
         }
         obj.src = "../../" + image["path"];
     }

@@ -127,3 +127,32 @@ function getRoadRules() {
 
     return rules;
 }
+
+// BEGIN SERENE VILLAGE RULES
+// North, East, South, West. Shore corners require a straight segment between them.
+function getSereneVillageRules() {
+    var rules = [
+        { id: 0, path: "assets/SereneVillage/grass.png", neighbours: [[0,3,11],[0,6,14],[0,8,16],[0,5,13]] },
+        { id: 1, path: "assets/SereneVillage/dirt.png", neighbours: [[1,7,8,9],[1,2,5,7],[1,2,3,4],[1,4,6,9]] },
+        { id: 2, path: "assets/SereneVillage/grass_dirt_nw.png", neighbours: [[1,7,8,9],[3,4],[5,7],[1,4,6,9]] },
+        { id: 3, path: "assets/SereneVillage/grass_dirt_n.png", neighbours: [[1,7,8,9],[3,4],[0,8,16],[2,3]] },
+        { id: 4, path: "assets/SereneVillage/grass_dirt_ne.png", neighbours: [[1,7,8,9],[1,2,5,7],[6,9],[2,3]] },
+        { id: 5, path: "assets/SereneVillage/grass_dirt_w.png", neighbours: [[2,5],[0,6,14],[5,7],[1,4,6,9]] },
+        { id: 6, path: "assets/SereneVillage/grass_dirt_e.png", neighbours: [[4,6],[1,2,5,7],[6,9],[0,5,13]] },
+        { id: 7, path: "assets/SereneVillage/grass_dirt_sw.png", neighbours: [[2,5],[8,9],[1,2,3,4],[1,4,6,9]] },
+        { id: 8, path: "assets/SereneVillage/grass_dirt_s.png", neighbours: [[0,3,11],[8,9],[1,2,3,4],[7,8]] },
+        { id: 9, path: "assets/SereneVillage/grass_dirt_se.png", neighbours: [[4,6],[1,2,5,7],[1,2,3,4],[7,8]] },
+        { id: 10, path: "assets/SereneVillage/grass_water_nw.png", neighbours: [[15,16,17,18],[11],[13],[12,14,17,18]] },
+        { id: 11, path: "assets/SereneVillage/grass_water_n.png", neighbours: [[15,16,17,18],[11,12],[0,8],[10,11]] },
+        { id: 12, path: "assets/SereneVillage/grass_water_ne.png", neighbours: [[15,16,17,18],[10,13,15,18],[14],[11]] },
+        { id: 13, path: "assets/SereneVillage/grass_water_w.png", neighbours: [[10,13],[0,6],[13,15],[12,14,17,18]] },
+        { id: 14, path: "assets/SereneVillage/grass_water_e.png", neighbours: [[12,14],[10,13,15,18],[14,17],[0,5]] },
+        { id: 15, path: "assets/SereneVillage/grass_water_sw.png", neighbours: [[13],[16],[10,11,12,18],[12,14,17,18]] },
+        { id: 16, path: "assets/SereneVillage/grass_water_s.png", neighbours: [[0,3],[16,17],[10,11,12,18],[15,16]] },
+        { id: 17, path: "assets/SereneVillage/grass_water_se.png", neighbours: [[14],[10,13,15,18],[10,11,12,18],[16]] },
+        { id: 18, path: "assets/SereneVillage/water.png", neighbours: [[15,16,17,18],[10,13,15,18],[10,11,12,18],[12,14,17,18]] }
+    ]
+
+    return rules;
+}
+// END SERENE VILLAGE RULES

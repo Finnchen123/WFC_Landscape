@@ -1,0 +1,287 @@
+[
+  {
+    "id": 0,
+    "name": "grass",
+    "source": [
+      4,
+      2
+    ],
+    "edges": [
+      "gg",
+      "gg",
+      "gg",
+      "gg"
+    ],
+    "path": "assets/SereneVillage/grass.png"
+  },
+  {
+    "id": 1,
+    "name": "dirt",
+    "source": [
+      10,
+      2
+    ],
+    "edges": [
+      "dd",
+      "dd",
+      "dd",
+      "dd"
+    ],
+    "path": "assets/SereneVillage/dirt.png"
+  },
+  {
+    "id": 2,
+    "name": "grass_dirt_nw",
+    "source": [
+      6,
+      1
+    ],
+    "edges": [
+      "dd",
+      "dg",
+      "dg",
+      "dd"
+    ],
+    "path": "assets/SereneVillage/grass_dirt_nw.png"
+  },
+  {
+    "id": 3,
+    "name": "grass_dirt_n",
+    "source": [
+      7,
+      1
+    ],
+    "edges": [
+      "dd",
+      "dg",
+      "gg",
+      "dg"
+    ],
+    "path": "assets/SereneVillage/grass_dirt_n.png"
+  },
+  {
+    "id": 4,
+    "name": "grass_dirt_ne",
+    "source": [
+      9,
+      1
+    ],
+    "edges": [
+      "dd",
+      "dd",
+      "gd",
+      "dg"
+    ],
+    "path": "assets/SereneVillage/grass_dirt_ne.png"
+  },
+  {
+    "id": 5,
+    "name": "grass_dirt_w",
+    "source": [
+      6,
+      2
+    ],
+    "edges": [
+      "dg",
+      "gg",
+      "dg",
+      "dd"
+    ],
+    "path": "assets/SereneVillage/grass_dirt_w.png"
+  },
+  {
+    "id": 6,
+    "name": "grass_dirt_e",
+    "source": [
+      9,
+      2
+    ],
+    "edges": [
+      "gd",
+      "dd",
+      "gd",
+      "gg"
+    ],
+    "path": "assets/SereneVillage/grass_dirt_e.png"
+  },
+  {
+    "id": 7,
+    "name": "grass_dirt_sw",
+    "source": [
+      6,
+      3
+    ],
+    "edges": [
+      "dg",
+      "gd",
+      "dd",
+      "dd"
+    ],
+    "path": "assets/SereneVillage/grass_dirt_sw.png"
+  },
+  {
+    "id": 8,
+    "name": "grass_dirt_s",
+    "source": [
+      7,
+      3
+    ],
+    "edges": [
+      "gg",
+      "gd",
+      "dd",
+      "gd"
+    ],
+    "path": "assets/SereneVillage/grass_dirt_s.png"
+  },
+  {
+    "id": 9,
+    "name": "grass_dirt_se",
+    "source": [
+      9,
+      3
+    ],
+    "edges": [
+      "gd",
+      "dd",
+      "dd",
+      "gd"
+    ],
+    "path": "assets/SereneVillage/grass_dirt_se.png"
+  },
+  {
+    "id": 10,
+    "name": "grass_water_nw",
+    "source": [
+      3,
+      4
+    ],
+    "edges": [
+      "ww",
+      "wg",
+      "wg",
+      "ww"
+    ],
+    "path": "assets/SereneVillage/grass_water_nw.png"
+  },
+  {
+    "id": 11,
+    "name": "grass_water_n",
+    "source": [
+      4,
+      4
+    ],
+    "edges": [
+      "ww",
+      "wg",
+      "gg",
+      "wg"
+    ],
+    "path": "assets/SereneVillage/grass_water_n.png"
+  },
+  {
+    "id": 12,
+    "name": "grass_water_ne",
+    "source": [
+      8,
+      4
+    ],
+    "edges": [
+      "ww",
+      "ww",
+      "gw",
+      "wg"
+    ],
+    "path": "assets/SereneVillage/grass_water_ne.png"
+  },
+  {
+    "id": 13,
+    "name": "grass_water_w",
+    "source": [
+      3,
+      5
+    ],
+    "edges": [
+      "wg",
+      "gg",
+      "wg",
+      "ww"
+    ],
+    "path": "assets/SereneVillage/grass_water_w.png"
+  },
+  {
+    "id": 14,
+    "name": "grass_water_e",
+    "source": [
+      8,
+      5
+    ],
+    "edges": [
+      "gw",
+      "ww",
+      "gw",
+      "gg"
+    ],
+    "path": "assets/SereneVillage/grass_water_e.png"
+  },
+  {
+    "id": 15,
+    "name": "grass_water_sw",
+    "source": [
+      3,
+      6
+    ],
+    "edges": [
+      "wg",
+      "gw",
+      "ww",
+      "ww"
+    ],
+    "path": "assets/SereneVillage/grass_water_sw.png"
+  },
+  {
+    "id": 16,
+    "name": "grass_water_s",
+    "source": [
+      4,
+      6
+    ],
+    "edges": [
+      "gg",
+      "gw",
+      "ww",
+      "gw"
+    ],
+    "path": "assets/SereneVillage/grass_water_s.png"
+  },
+  {
+    "id": 17,
+    "name": "grass_water_se",
+    "source": [
+      8,
+      6
+    ],
+    "edges": [
+      "gw",
+      "ww",
+      "ww",
+      "gw"
+    ],
+    "path": "assets/SereneVillage/grass_water_se.png"
+  },
+  {
+    "id": 18,
+    "name": "water",
+    "source": [
+      9,
+      5
+    ],
+    "edges": [
+      "ww",
+      "ww",
+      "ww",
+      "ww"
+    ],
+    "path": "assets/SereneVillage/water.png"
+  }
+]

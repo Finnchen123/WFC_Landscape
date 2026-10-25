@@ -37,11 +37,16 @@ Canvas {
     id: root
     anchors.fill: parent
 
+    Component.onCompleted: Wave.configure(Field.Field)
+
     //Neighbours are always the same: North, East, South, West
     function getImages(){
-        var usedTileset = "Dungeon";
+        var usedTileset = "SereneVillage";
         var imageList;
         switch(usedTileset){
+            case "SereneVillage":
+                imageList = Ruleset.getSereneVillageRules();
+            break;
             case "Roads":
                 imageList = Ruleset.getRoadRules();
             break;
@@ -58,9 +63,12 @@ Canvas {
         return imageList;
     }
 
+    property bool tilesInitialized: false
+    property var tileRules: getImages()
+
     onPaint: {
         var ctx = getContext("2d");
-        var images = getImages();
+        var images = tileRules;
         var canPaint = true;
         var isFinished = false;
         for(var i = 0; i < images.length; i++){
@@ -69,11 +77,15 @@ Canvas {
                 loadImage(images[i]["path"]);
             }
             else{
-                Wave.saveImage(images[i], ctx);
+                Wave.saveImage(images[i], ctx.createImageData(images[i]["path"]));
             }
         }
 
         if(canPaint){
+            if (!tilesInitialized) {
+                Wave.initialize();
+                tilesInitialized = true;
+            }
             isFinished = Wave.paintMatrix(ctx);
         }
 
