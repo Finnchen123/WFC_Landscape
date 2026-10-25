@@ -36,6 +36,8 @@ WallpaperItem {
         Component.onCompleted: {
             Wave.configure(Field.Field);
             ready = true;
+            observedSettingsKey = settingsKey;
+            observedAutoRestart = autoRestart;
             scheduleRestart();
         }
 
@@ -51,23 +53,38 @@ WallpaperItem {
 
         property string usedTileset: wallpaper.configuration.Tileset
         property bool showDecorations: wallpaper.configuration.ShowDecorations
-        // A single deferred restart observes the complete applied configuration.
-        property string settingsKey: JSON.stringify([
-            wallpaper.configuration.Tileset,
-            wallpaper.configuration.StepInterval,
-            wallpaper.configuration.RestartDelay,
-            wallpaper.configuration.AutoRestart,
-            wallpaper.configuration.ShowDecorations
-        ])
-        onSettingsKeyChanged: scheduleRestart()
+        // Remember applied values: KConfig can emit valueChanged for unchanged keys.
+        property bool autoRestart: wallpaper.configuration.AutoRestart
+        property string observedSettingsKey: ""
+        property bool observedAutoRestart: true
+        function configurationKey() {
+            return JSON.stringify([
+                wallpaper.configuration.Tileset,
+                wallpaper.configuration.StepInterval,
+                wallpaper.configuration.RestartDelay,
+                wallpaper.configuration.ShowDecorations
+            ]);
+        }
+        property string settingsKey: configurationKey()
+        onSettingsKeyChanged: applyConfigurationChange()
+        onAutoRestartChanged: applyConfigurationChange()
 
-        // KConfigPropertyMap emits this when Plasma applies/reloads persisted values.
+        function applyConfigurationChange() {
+            if (!ready) return;
+            var key = configurationKey();
+            var enabled = wallpaper.configuration.AutoRestart;
+            var otherChanged = key !== observedSettingsKey;
+            var restartEnabled = enabled && !observedAutoRestart;
+            observedSettingsKey = key;
+            observedAutoRestart = enabled;
+            if (!enabled) resetTimerWave.stop();
+            if (otherChanged || restartEnabled) scheduleRestart();
+        }
+
         Connections {
             target: wallpaper.configuration
             function onValueChanged(key, value) {
-                if (["Tileset", "StepInterval", "RestartDelay", "AutoRestart", "ShowDecorations"].indexOf(key) !== -1) {
-                    root.scheduleRestart();
-                }
+                root.applyConfigurationChange();
             }
         }
 

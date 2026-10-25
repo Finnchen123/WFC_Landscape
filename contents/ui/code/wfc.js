@@ -133,27 +133,43 @@ function paintDecorations(ctx, collapsedField) {
                 var attempt = rule.id + ":" + x + "," + y;
                 if (decorationAttempts[attempt]) continue;
                 var fits = true;
+                var displaced = [];
+                var priority = decorationPriority(rule);
                 for (var dx = 0; dx < rule.width && fits; dx++) {
                     for (var dy = 0; dy < rule.height; dy++) {
                         var field = map[x + dx][y + dy];
+                        var occupant = decorationOccupied[(x + dx) + "," + (y + dy)];
                         if (!field.collapsed || !field.painted ||
-                            decorationOccupied[(x + dx) + "," + (y + dy)] ||
+                            (occupant && decorationPriority(occupant.item.rule) >= priority) ||
                             rule.terrainIds.indexOf(field.type) === -1) {
                             fits = false;
                             break;
                         }
+                        if (occupant && displaced.indexOf(occupant) === -1) displaced.push(occupant);
                     }
                 }
                 if (!fits) continue;
                 // Roll once when the entire footprint has collapsed, not every frame.
                 decorationAttempts[attempt] = true;
                 if (Math.random() >= rule.chance) continue;
+                // Small details must not permanently block a later house/tree.
+                // Restore the full displaced sprite, including cells outside this footprint.
+                for (var old of displaced) {
+                    for (var ox = old.x; ox < old.x + old.item.rule.width; ox++) {
+                        for (var oy = old.y; oy < old.y + old.item.rule.height; oy++) {
+                            delete decorationOccupied[ox + "," + oy];
+                            ctx.drawImage(images[map[ox][oy].type].image, ox * SIZE, oy * SIZE);
+                        }
+                    }
+                    decorationPlacements.splice(decorationPlacements.indexOf(old), 1);
+                }
+                var placement = { item: item, x: x, y: y };
                 for (var dx = 0; dx < rule.width; dx++) {
                     for (var dy = 0; dy < rule.height; dy++) {
-                        decorationOccupied[(x + dx) + "," + (y + dy)] = true;
+                        decorationOccupied[(x + dx) + "," + (y + dy)] = placement;
                     }
                 }
-                decorationPlacements.push({ item: item, x: x, y: y });
+                decorationPlacements.push(placement);
                 // All underlying cells are already painted and never paint again.
                 ctx.drawImage(item.image, x * SIZE, y * SIZE);
             }
@@ -166,4 +182,11 @@ function paintDecorations(ctx, collapsedField) {
 function clearTiles() {
     images = [];
     clearDecorations();
+}
+
+
+function decorationPriority(rule) {
+    if (rule.kind === "house") return 3;
+    if (rule.kind === "tree") return 2;
+    return 1;
 }

@@ -44,24 +44,6 @@ python3 -m http.server 8000
 ```
 
 Open http://localhost:8000/contents/ui/code/testing/index.html.
-The browser preview and Plasma use the same rules and field implementation;
-no namespace edits, commented imports or release-time code changes are needed.
-Browser-only startup and image loading live in `testing/testing.js`; Plasma
-startup and image loading live in `main.qml`. Both entry points pass their
-Field constructor to `configure()` and their loaded images to `saveImage()`.
-`wfc.js` and `field.js` contain the shared generator without browser or QML
-namespace detection. Change `RULESET` in
-`contents/ui/code/testing/testing.js` to preview a different tileset.
-
-The shared generator also has a regression check for a common browser scope
-and separate QML-style script scopes:
-
-```sh
-node tests/runtime.js
-```
-
-This checks initialization, loaded images, generation, restart and an empty
-canvas. It does not replace testing inside Plasma.
 
 ## Serene Village
 
@@ -79,7 +61,9 @@ Some runs may encounter a contradiction and restart.
 Select **WFC Landscape** in Plasma's wallpaper settings to configure the tileset,
 time per collapse (10–1000 ms), automatic restart, restart pause (1–3600 seconds),
 and Serene Village decorations. Lower collapse times make generation faster.
-Every applied setting change starts a fresh generation, including changes to
-collapse time, restart pause, tileset and decoration settings.
+Changing the tileset, collapse time, restart pause or decoration settings starts
+a fresh generation. Turning automatic restart off keeps the current generation
+and cancels the pending restart; an unfinished generation continues to completion.
+Turning automatic restart back on starts a fresh generation.
 With automatic restart disabled, the final or partially generated image stays
 visible, including when WFC encounters a contradiction.

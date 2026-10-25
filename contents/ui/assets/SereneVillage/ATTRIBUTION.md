@@ -44,8 +44,7 @@ behavior still apply, so some runs may stop at a contradiction.
 
 11 additional sprites are cropped from the same sheet and enlarged with
 nearest-neighbor scaling: two red houses, three trees, a rock, a bush,
-three flower pots and daisies. `decorations.json` records their source
-rectangles as [x, y, width, height] in 16×16 cells.
+three flower pots and daisies.
 
 `getSereneVillageDecorations()` in `ruleset.js` defines dimensions, placement
 probabilities and allowed terrain IDs. After each collapse, `paintDecorations()` checks footprints containing the
@@ -53,7 +52,9 @@ newly collapsed cell and places complete sprites on unoccupied grass or dirt.
 Every cell under the sprite must already be collapsed and painted; shore
 tiles and water are excluded. Each eligible footprint gets one probability
 roll per sprite. Large sprites are considered first within each step.
-Existing placements reserve their cells until restart. Since their complete
+Houses can replace smaller details; trees can replace plants and rocks.
+Displaced sprites are removed completely and their ground is restored.
+Objects of equal priority never overlap. Since their complete
 footprints are already painted, later collapses do not overwrite them.
 Small islands may have space only for flowers or bushes. Decorations are static;
 houses do not currently get generated paths or connected doors.
