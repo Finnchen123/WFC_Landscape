@@ -39,9 +39,10 @@ Canvas {
 
     Component.onCompleted: Wave.configure(Field.Field)
 
+    property string usedTileset: "SereneVillage"
+
     //Neighbours are always the same: North, East, South, West
     function getImages(){
-        var usedTileset = "SereneVillage";
         var imageList;
         switch(usedTileset){
             case "SereneVillage":
@@ -65,6 +66,7 @@ Canvas {
 
     property bool tilesInitialized: false
     property var tileRules: getImages()
+    property var decorationRules: usedTileset === "SereneVillage" ? Ruleset.getSereneVillageDecorations() : []
 
     onPaint: {
         var ctx = getContext("2d");
@@ -78,6 +80,16 @@ Canvas {
             }
             else{
                 Wave.saveImage(images[i], ctx.createImageData(images[i]["path"]));
+            }
+        }
+
+        for (var j = 0; j < decorationRules.length; j++) {
+            var decoration = decorationRules[j];
+            if (!isImageLoaded(decoration.path)) {
+                canPaint = false;
+                loadImage(decoration.path);
+            } else {
+                Wave.saveDecoration(decoration, ctx.createImageData(decoration.path));
             }
         }
 

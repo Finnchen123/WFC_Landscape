@@ -6,7 +6,7 @@ The background is currently working and supports the following tilesets:
 - Dungeon
 - Landscape
 - Roads
-- Serene Village (default; grass, dirt and water)
+- Serene Village (default; terrain, houses, trees, rocks and flowers)
 
 It uses 32x32 pixel sized images and takes around 1:30 minutes for a 1920x1080 screen
 
@@ -54,6 +54,9 @@ This checks initialization, loaded images, generation, restart and an empty
 canvas. It does not replace testing inside Plasma.
 
 ## Serene Village
+
+Includes static houses, trees, rocks, bushes and flowers placed on suitable
+ground during terrain collapse. Larger objects need enough open land.
 
 See [asset credits and licensing](contents/ui/assets/SereneVillage/ATTRIBUTION.md).
 

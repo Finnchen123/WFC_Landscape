@@ -24,6 +24,9 @@ function configure(createField) {
 }
 
 function initialize() {
+    decorationPlacements = [];
+    decorationOccupied = {};
+    decorationAttempts = {};
     map = [];
     if (!fieldConstructor) return;
     for (var i = 0; i < cell_count_x; i++) {
@@ -74,6 +77,7 @@ function paintMatrix(ctx) {
         var collapse = availableCollapse[Math.round(Math.random() * (availableCollapse.length - 1))];
         collapse.generateRandomType(ctx);
         collapse.propagate(0);
+        paintDecorations(ctx, collapse);
     }
 
     return counterCollapsed == map.length * map[0].length || availableCollapse.length <= 0;
@@ -94,4 +98,65 @@ function dimensionChanged(width, height) {
     cell_count_x = Math.round(width / SIZE);
     cell_count_y = Math.round(height / SIZE);
     initialize();
+}
+// Decoration images are separate from terrain options and never enter WFC.
+var decorations = [];
+var decorationPlacements = [];
+var decorationOccupied = {};
+var decorationAttempts = {};
+
+function clearDecorations() {
+    decorations = [];
+    decorationPlacements = [];
+    decorationOccupied = {};
+    decorationAttempts = {};
+}
+
+function saveDecoration(rule, imageData) {
+    decorations[rule.id] = { rule: rule, image: imageData };
+}
+
+// Only footprints containing the cell collapsed in this step can become ready.
+function paintDecorations(ctx, collapsedField) {
+    if (!collapsedField || !collapsedField.collapsed) return;
+    var candidates = decorations.slice().sort(function(a, b) {
+        return b.rule.width * b.rule.height - a.rule.width * a.rule.height;
+    });
+    for (var item of candidates) {
+        var rule = item.rule;
+        var minX = Math.max(0, collapsedField.x - rule.width + 1);
+        var minY = Math.max(0, collapsedField.y - rule.height + 1);
+        var maxX = Math.min(collapsedField.x, cell_count_x - rule.width);
+        var maxY = Math.min(collapsedField.y, cell_count_y - rule.height);
+        for (var y = minY; y <= maxY; y++) {
+            for (var x = minX; x <= maxX; x++) {
+                var attempt = rule.id + ":" + x + "," + y;
+                if (decorationAttempts[attempt]) continue;
+                var fits = true;
+                for (var dx = 0; dx < rule.width && fits; dx++) {
+                    for (var dy = 0; dy < rule.height; dy++) {
+                        var field = map[x + dx][y + dy];
+                        if (!field.collapsed || !field.painted ||
+                            decorationOccupied[(x + dx) + "," + (y + dy)] ||
+                            rule.terrainIds.indexOf(field.type) === -1) {
+                            fits = false;
+                            break;
+                        }
+                    }
+                }
+                if (!fits) continue;
+                // Roll once when the entire footprint has collapsed, not every frame.
+                decorationAttempts[attempt] = true;
+                if (Math.random() >= rule.chance) continue;
+                for (var dx = 0; dx < rule.width; dx++) {
+                    for (var dy = 0; dy < rule.height; dy++) {
+                        decorationOccupied[(x + dx) + "," + (y + dy)] = true;
+                    }
+                }
+                decorationPlacements.push({ item: item, x: x, y: y });
+                // All underlying cells are already painted and never paint again.
+                ctx.drawImage(item.image, x * SIZE, y * SIZE);
+            }
+        }
+    }
 }

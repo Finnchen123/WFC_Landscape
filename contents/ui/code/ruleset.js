@@ -156,3 +156,21 @@ function getSereneVillageRules() {
     return rules;
 }
 // END SERENE VILLAGE RULES
+
+
+// Complete sprites placed over finished terrain; dimensions are in grid cells.
+function getSereneVillageDecorations() {
+    return [
+        {"id": 0, "path": "assets/SereneVillage/house_red.png", "width": 3, "height": 4, "kind": "house", "chance": 0.035, "terrainIds": [0, 1]},
+        {"id": 1, "path": "assets/SereneVillage/house_gable.png", "width": 4, "height": 4, "kind": "house", "chance": 0.025, "terrainIds": [0, 1]},
+        {"id": 2, "path": "assets/SereneVillage/tree_green.png", "width": 2, "height": 3, "kind": "tree", "chance": 0.18, "terrainIds": [0, 1]},
+        {"id": 3, "path": "assets/SereneVillage/tree_blue.png", "width": 2, "height": 3, "kind": "tree", "chance": 0.12, "terrainIds": [0, 1]},
+        {"id": 4, "path": "assets/SereneVillage/tree_small.png", "width": 2, "height": 3, "kind": "tree", "chance": 0.15, "terrainIds": [0, 1]},
+        {"id": 5, "path": "assets/SereneVillage/rock.png", "width": 1, "height": 1, "kind": "rock", "chance": 0.1, "terrainIds": [0, 1]},
+        {"id": 6, "path": "assets/SereneVillage/bush.png", "width": 1, "height": 1, "kind": "plant", "chance": 0.06, "terrainIds": [0, 1]},
+        {"id": 7, "path": "assets/SereneVillage/flowers_red.png", "width": 1, "height": 1, "kind": "plant", "chance": 0.05, "terrainIds": [0, 1]},
+        {"id": 8, "path": "assets/SereneVillage/flowers_blue.png", "width": 1, "height": 1, "kind": "plant", "chance": 0.05, "terrainIds": [0, 1]},
+        {"id": 9, "path": "assets/SereneVillage/flowers_yellow.png", "width": 1, "height": 1, "kind": "plant", "chance": 0.05, "terrainIds": [0, 1]},
+        {"id": 10, "path": "assets/SereneVillage/daisies.png", "width": 1, "height": 2, "kind": "plant", "chance": 0.04, "terrainIds": [0, 1]}
+    ];
+}
