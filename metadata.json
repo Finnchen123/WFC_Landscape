@@ -11,7 +11,7 @@
         "Id": "org.kde.plasma.wfc_landscape",
         "License": "GPL-3.0-only",
         "Name": "WFC Landscape",
-        "Version": "0.2.0",
+        "Version": "1.0",
         "Website": "https://plasma.kde.org/"
     },
     "KPackageStructure": "Plasma/Wallpaper",

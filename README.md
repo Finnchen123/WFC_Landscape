@@ -1,4 +1,6 @@
 # WFC_Landscape
+
+Version: **1.0**
 A random landscape generator based on WFC for Plasma Wallpapers
 
 # Current state
